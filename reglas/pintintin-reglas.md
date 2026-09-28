@@ -348,6 +348,8 @@ Implementar el reglamento en código obligó a decidir cuatro puntos que el test
 
 Con la regla 2, la 1 sale casi sola: en una tranca nadie puede jugar las puntas, así que esas caras están muertas y el pase valdría 0 de todos modos.
 
+**Aclaración (confirmada por el informante):** la regla 2 se aplica aunque en ese momento nadie pueda saberlo. Si fallan los dos y una punta solo está muerta porque lo que falta de ese número quedó en la pila, **se cobra como cara muerta** (30 en vez de 60), aunque el monto del cobro deje ver que esas fichas están en la pila.
+
 ### Abiertas
 
 | # | Pregunta | Cómo lo decide el motor |
