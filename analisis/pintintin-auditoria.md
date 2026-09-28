@@ -17,7 +17,7 @@
 | **El salto real** | Un bot que **simula el resto de la mano** (nivel 6, "Sabio") le gana al Maestro: **28,3%** contra 33,3%, y mejora con más cálculo |
 | **Techo** | Viendo las manos de verdad y simulando, se baja a **15,5%** contra dos Maestros |
 | **La salida** | "Sal de doble" queda confirmado, con un matiz nuevo: **cuenta cuántas del palo traes** |
-| **Una regla abierta** | El 84% de las trancas le paga además un pase al que trancó. Hay que preguntarlo en la mesa |
+| **Reglamento v1.8** | Dos reglas resueltas: la tranca no paga pase y la pila mata la cara. Los pases valen casi la mitad; Balance se separa más (−2,6) |
 
 Todo lo que lleva porcentaje aquí está **medido**, con intervalo de confianza del 95% entre corchetes. Lo razonado va marcado.
 
@@ -597,6 +597,43 @@ Está en el motor como **nivel 5b "Balance"** (`nivel5b_balance`). Cuesta lo mis
 
 Las tres descubiertas quedan arriba, separadas del pelotón del Maestro. Nota: en mesas mezcladas con jugadores flojos, la **alianza total** sube (4º), coherente con la Estrategia §3: la alianza destroza al descuidado; entre Maestros no rinde (§4.11a).
 
+### 4.12 Reglamento v1.8: las dos reglas resueltas y su efecto
+
+El 28-sep-2026 el informante resolvió dos preguntas abiertas (reglamento §12):
+
+1. **La tranca se canta al instante: no paga pase.**
+2. **Una cara cuyas fichas restantes están en la pila está muerta.**
+
+El motor Python las adopta por defecto (`PASE_EN_TRANCA = False`, `CARA_EN_PILA_VIVA = False`). **Todo lo medido antes en este documento usa la lectura anterior** (las dos en `True`). Se reproduce con las variables de entorno `PINTINTIN_PASE_EN_TRANCA=1 PINTINTIN_CARA_EN_PILA_VIVA=1`, o poniendo las dos constantes en `True`.
+
+**Qué cambia** (20.000 rondas de tres Maestros, `datos/perfil_maestros_v18.txt`):
+
+| | Lectura anterior | **v1.8** |
+|---|---|---|
+| Puntos por jugador y mano | 26,3 | **19,6** |
+| · de pases | 15,0 | **8,2** |
+| · de cierre | 11,3 | 11,4 |
+| No anota nada en la mano | 52% | 57% |
+| Manos por ronda | 3,9 | **5,1** |
+| El que sale gana la mano | 47,4% | 47,9% |
+| Gana la 1ª mano → pierde la ronda | 14,1% | 14,1% |
+| Último tras la 3ª mano → pierde | 68% | 68% |
+| **No gana ninguna mano → pierde** | 64% | **71%** |
+
+**La escalera de bots** (30.000 rondas contra dos Maestros, semillas 11, control en las mismas semillas; `datos/reglas_v18_escalera.txt`):
+
+| | Lectura anterior | **v1.8** |
+|---|---|---|
+| Control (Maestro) | 33,7% | 33,0% |
+| Jugador | 37,8% | 39,8% |
+| Fogueado | 33,7% | 33,4% |
+| **Balance** | 31,8% (Δ −1,9) | **30,4% (Δ −2,6)** |
+
+> ### Con las reglas oficiales, los pases valen casi la mitad y ganar manos pesa más.
+> El orden de los bots no cambia, y **Balance se separa más del Maestro**: con menos dinero en los pases, conservar respuestas (y así ganar la mano) vale todavía más.
+
+Lo demás del documento —la estructura, las tácticas refutadas, el Sabio— **no se volvió a medir** con v1.8; los órdenes de magnitud deberían mantenerse, pero cualquier cifra nueva debe medirse con las reglas oficiales. La tabla de valor del Sabio (`motor/tabla_valor.json`) ya está regenerada con v1.8, y el simulador rápido del laboratorio respeta las dos reglas (4.000/4.000 manos idénticas al motor en cada lectura).
+
 ---
 
 ## 5. Propuestas de estrategia
@@ -629,12 +666,12 @@ Marcadas como **medidas** o **razonadas**.
 
 ## 6. Preguntas para la segunda fuente
 
-El reglamento tiene un solo informante. Estas son las ambigüedades que el código obligó a decidir:
+Las preguntas 1 (¿la tranca paga pase?) y 2 (¿la pila mata la cara?) quedaron **resueltas por el informante** en el reglamento v1.8: no, y sí (§4.12). Siguen abiertas:
 
-1. **¿La tranca paga pase?** Cuando tu jugada deja la mesa cerrada, los otros dos dicen "no va" y, leído literalmente, cobras el pase. Pasa en el **84% de las trancas**, por unos **35 puntos** de media. Si en la mesa la tranca se canta al instante, ese pase no existe. *Medido: la escalera de bots no cambia con una u otra regla (Novato 55%, Jugador 39%, Fogueado 34%, Maestro 33%), pero el marcador sí.* Interruptor: `PASE_EN_TRANCA` en el motor.
-2. **¿Una cara cuyas fichas restantes están todas en la pila está viva?** El reglamento dice que una cara muere cuando *todas sus fichas están en la mesa*, así que sí paga. En la práctica nadie puede jugarla.
-3. **"La ficha más alta" en la muerte súbita:** ¿por cara (6/2 antes que 5/4) o por puntos (5/4 = 9 antes que 6/2 = 8)? El código usa la cara, como los JS.
+3. **"La ficha más alta" en la muerte súbita sin dobles:** ¿por cara (6/2 antes que 5/4) o por puntos (5/4 = 9 antes que 6/2 = 8)? El código usa la cara, como los JS.
 4. **Capicúa con las dos puntas iguales:** si las puntas son 5 y 5 y cierras con `5/x`, ¿es capicúa? El código dice que no.
+
+Y la que más valor tendría: **una segunda mesa** que confirme o discuta todo el reglamento.
 
 ---
 

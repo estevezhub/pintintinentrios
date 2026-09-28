@@ -8,3 +8,6 @@ plan-juego/
 
 # Scripts temporales
 *.tmp
+
+# Configuración local de Claude Code
+.claude/

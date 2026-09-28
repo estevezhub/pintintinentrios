@@ -2,7 +2,7 @@
 
 **Dominó de 3 jugadores · República Dominicana**
 
-Versión 1.7 — 28 de septiembre de 2026 · **Reglamento completo** · con preguntas abiertas en §12
+Versión 1.8 — 28 de septiembre de 2026 · **Reglamento completo** · dos preguntas resueltas y dos abiertas en §12
 
 ---
 
@@ -116,7 +116,7 @@ Una **cara** es un número que hay que igualar para poder jugar. No son las dos 
 
 - **Los dos extremos muestran el mismo número** → **1 cara**. Salir de `6/6` es 1 cara: basta tener un seis.
 - **Los extremos muestran números distintos** → **2 caras**. Salir de `6/4` son 2 caras: hay que fallar contra seises *y* contra cuatros, que es mucho más difícil — por eso paga el doble.
-- **Cara muerta:** si **todas** las fichas de ese número ya están sobre la mesa, ese lado queda bloqueado para siempre y **no cuenta**. Una mesa con un extremo muerto es de 1 cara aunque muestre dos números distintos.
+- **Cara muerta:** si **nadie en la mesa puede jugar ese número** — porque todas sus fichas ya están sobre la mesa, **o porque las que faltan quedaron en la pila** — ese lado queda bloqueado para siempre y **no cuenta**. Una mesa con un extremo muerto es de 1 cara aunque muestre dos números distintos. *(v1.8: la pila también mata la cara.)*
 
 #### Casos de referencia
 
@@ -130,6 +130,8 @@ Una **cara** es un número que hay que igualar para poder jugar. No son las dos 
 | **En la mano**, dos caras vivas. No van los dos | 2 | los dos | **60** |
 
 > **Ejemplo de cara muerta.** Solo existen 5 blancos. Si los 5 ya están jugados y un extremo muestra blanco, ese lado está muerto: nadie podrá jugar ahí nunca más. Si el otro extremo es un tres vivo, la mesa es de **1 cara**.
+>
+> **Lo mismo si lo que falta está en la pila.** Si en la mesa hay 4 blancos y el quinto quedó en la pila, nadie puede jugar blanco: la cara está muerta.
 >
 > Juegas un tres, no van los dos → **+30**. Juegas después el `3/3` y tampoco van → **+30 más**.
 
@@ -148,6 +150,8 @@ Quien juega su **última ficha** domina y gana la mano.
 ### 5.3 Tranca
 
 Cuando **nadie puede jugar**, se cuentan las fichas en mano. **Gana el que tenga menos.**
+
+**La tranca se canta al instante:** los "no va" que la confirman **no pagan pase**. Quien tranca cobra solo la tranca, si la gana. *(v1.8)*
 
 **Anota la suma de las tres manos, incluidas sus propias fichas.**
 
@@ -290,7 +294,7 @@ En todos los casos la jugada topa en **60**. Y recuerda que esta ventaja es solo
 | **Pases corridos** | Los pases que cobras al hacer fallar a los rivales |
 | **Plus** | Los puntos de esos pases (30 por cara viva, por rival) |
 | **Cara** | Un número que hay que igualar para jugar |
-| **Cara viva / muerta** | Quedan fichas de ese número / ya salieron todas |
+| **Cara viva / muerta** | Alguien puede jugar ese número / nadie puede: ya salieron todas o las que faltan están en la pila |
 | **Dominar** | Jugar tu última ficha y cerrar la mano |
 | **Tranca** | Nadie puede jugar; se cuentan las manos |
 | **Capicúa** | Cerrar con una ficha que sirve a ambos extremos |
@@ -322,6 +326,8 @@ En todos los casos la jugada topa en **60**. Y recuerda que esta ventaja es solo
 | Capicúa | Esa suma **+ 30** |
 | Ganar la tranca (mano más baja) | Suma de las tres manos |
 
+**Cara muerta:** nadie puede jugar ese número (todo en la mesa, o lo que falta en la pila): no cuenta para el pase.
+**Tranca:** se canta al instante; no paga pase.
 **Techo:** los bonos nunca te llevan a 150. Desde 120 solo se sube dominando o trancando.
 **Cierre:** alguien llega a 150 → termina la ronda → **el tercero pierde**.
 **Pasar con ficha:** el infractor es el perdedor y el marcador vuelve a 0 – 0 – 0.
@@ -329,18 +335,25 @@ En todos los casos la jugada topa en **60**. Y recuerda que esta ventaja es solo
 
 ---
 
-## 12. Preguntas abiertas
+## 12. Preguntas del reglamento
 
-Implementar el reglamento en código obligó a decidir cuatro puntos que el testimonio oral no aclara. Están implementados como se indica, pero **hay que confirmarlos con otras mesas**:
+Implementar el reglamento en código obligó a decidir cuatro puntos que el testimonio oral no aclaraba.
 
-| # | Pregunta | Cómo lo decide el motor | Por qué importa |
+### Resueltas (v1.8, 28-sep-2026, por el informante)
+
+| # | Pregunta | Respuesta | Qué cambia |
 |---|---|---|---|
-| 1 | **¿La tranca paga pase?** Cuando tu jugada deja la mesa cerrada, los otros dos dicen "no va": ¿cobras el pase antes de contar la tranca? | Sí, leído literalmente (interruptor `PASE_EN_TRANCA`) | Pasa en el **84%** de las trancas, por ~35 pts. Si la tranca se canta al instante, ese pase no existe |
-| 2 | **¿Una cara cuyas fichas restantes están todas en la pila está viva?** | Sí: solo muere cuando *todas* sus fichas están en la mesa | Nadie puede jugarla, pero sigue pagando pase |
-| 3 | **"La ficha más alta" en la muerte súbita sin dobles**: ¿por cara (`6/2` antes que `5/4`) o por puntos (`5/4` = 9 antes que `6/2` = 8)? | Por cara, como las apps | Decide quién sale |
-| 4 | **Capicúa con las dos puntas iguales**: si las puntas son 5 y 5 y cierras con `5/x`, ¿es capicúa? | No | +30 |
+| 1 | **¿La tranca paga pase?** Cuando tu jugada deja la mesa cerrada y los otros dicen "no va", ¿cobras el pase? | **No.** La tranca se canta al instante | La lectura literal anterior pagaba en el 84% de las trancas (~35 pts) |
+| 2 | **¿Una cara cuyas fichas restantes están todas en la pila está viva?** | **No: está muerta.** Nadie la puede jugar | Los pases valen menos: el pase medio por mano baja de 15 a 8 pts |
 
-Medido (`analisis/pintintin-auditoria.md` §6): la escalera de bots no cambia con la regla 1, pero el marcador sí.
+Con la regla 2, la 1 sale casi sola: en una tranca nadie puede jugar las puntas, así que esas caras están muertas y el pase valdría 0 de todos modos.
+
+### Abiertas
+
+| # | Pregunta | Cómo lo decide el motor |
+|---|---|---|
+| 3 | **"La ficha más alta" en la muerte súbita sin dobles**: ¿por cara (`6/2` antes que `5/4`) o por puntos (`5/4` = 9 antes que `6/2` = 8)? | Por cara, como las apps |
+| 4 | **Capicúa con las dos puntas iguales**: si las puntas son 5 y 5 y cierras con `5/x`, ¿es capicúa? | No |
 
 ---
 

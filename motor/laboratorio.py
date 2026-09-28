@@ -236,7 +236,13 @@ def rollout(manos, enmesa, izq, der, marcador, turno, ultimo, fallos,
         if ultimo is not None and ultimo != i:
             fallos += 1
             vivas = [izq] if izq == der else [izq, der]
-            nv = sum(1 for n in vivas if enmesa[n] < TOT[n])
+            if M.CARA_EN_PILA_VIVA:
+                nv = sum(1 for n in vivas if enmesa[n] < TOT[n])
+            else:   # reglamento v1.8: viva solo si alguien la tiene
+                nv = sum(1 for n in vivas if any(FA[x] == n or FB[x] == n for m in manos for x in m))
+            if nv and not M.PASE_EN_TRANCA and not any(
+                    FA[x] in (izq, der) or FB[x] in (izq, der) for m in manos for x in m):
+                nv = 0      # mesa trancada: se canta al instante, sin pase
             if nv and (nmesa == 1 or fallos >= 2):
                 quiere = min(30 * nv, max(0, 60 - cobrado))
                 if quiere > 0:
@@ -547,7 +553,12 @@ def politica(nombre):
 def _trabajo_torneo(args):
     nombre, rival, k0, n, semilla = args
     random.seed(semilla)
-    M.PASE_EN_TRANCA = os.environ.get("PINTINTIN_PASE_EN_TRANCA", "1") == "1"
+    # Por defecto, las reglas oficiales del motor. Las variables de entorno permiten
+    # reproducir la lectura anterior (PINTINTIN_PASE_EN_TRANCA=1 PINTINTIN_CARA_EN_PILA_VIVA=1).
+    if "PINTINTIN_PASE_EN_TRANCA" in os.environ:
+        M.PASE_EN_TRANCA = os.environ["PINTINTIN_PASE_EN_TRANCA"] == "1"
+    if "PINTINTIN_CARA_EN_PILA_VIVA" in os.environ:
+        M.CARA_EN_PILA_VIVA = os.environ["PINTINTIN_CARA_EN_PILA_VIVA"] == "1"
     pol, riv = politica(nombre), politica(rival)
     perdidas = 0
     for k in range(k0, k0 + n):

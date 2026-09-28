@@ -31,9 +31,9 @@ def armar(manos, marcador=(0, 0, 0), mesa=(), izq=None, der=None,
     return h
 
 
-# Todos los seises en J1; los blancos sueltos en la pila.
+# J1 tiene seis seises y un blanco suelto; J2 y J3 no tienen ni seises ni blancos.
 SEISES = [
-    [(6, 6), (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (5, 6)],
+    [(6, 6), (0, 6), (1, 6), (2, 6), (3, 6), (4, 6), (0, 2)],
     [(1, 2), (1, 3), (1, 4), (1, 5), (2, 2), (2, 3), (2, 4)],
     [(2, 5), (3, 3), (3, 4), (3, 5), (4, 4), (4, 5), (5, 5)],
 ]
@@ -59,7 +59,7 @@ class PaseEnLaSalida(unittest.TestCase):
 
     def test_dos_caras_paga_60_y_topa(self):
         h = armar(SEISES)
-        h.jugar(0, (0, 6), 'd')              # 0 vivo (blancos en la pila) y 6 vivo
+        h.jugar(0, (0, 6), 'd')              # 0 vivo (J1 tiene el 0-2) y 6 vivo
         self.assertEqual(len(h.caras_vivas()), 2)
         h.no_va(1)
         self.assertEqual(h.marcador[0], 60)
@@ -84,7 +84,7 @@ class PaseEnLaMano(unittest.TestCase):
         self.assertEqual(h.marcador[0], 30)
 
     def test_fallan_los_dos_dos_caras(self):
-        h = self.mesa_media(0, 6)            # blancos vivos (están en la pila)
+        h = self.mesa_media(0, 6)            # blancos vivos (J1 tiene el 0-2)
         h.no_va(1); h.no_va(2)
         self.assertEqual(h.marcador[0], 60)
 
@@ -168,6 +168,46 @@ class PrimeraOficial(unittest.TestCase):
                       if any((v, v) in m for m in h.manos)]
             h.correr()
             self.assertEqual(h.log[0].split(" juega ")[1], str(dobles[0]))
+
+
+class ReglasResueltas(unittest.TestCase):
+    """Reglamento v1.8: sin pase en tranca; cara con lo que falta en la pila = muerta."""
+
+    def test_cara_con_lo_que_falta_en_la_pila_esta_muerta(self):
+        # el único tres que falta (3-5) está en la pila: la cara 3 está muerta
+        h = armar([[(2, 6), (1, 2)], [(1, 4), (2, 4)], [(1, 5), (2, 5)]],
+                  mesa=[(0, 3), (1, 3), (2, 3), (3, 3), (3, 4), (3, 6)], izq=3, der=6, ultimo=0, turno=1)
+        self.assertIn((3, 5), h.pila)
+        self.assertFalse(h.viva(3))
+        self.assertTrue(h.viva(6))                      # J1 tiene el 2-6
+        h.no_va(1); h.no_va(2)
+        self.assertEqual(h.marcador[0], 30)             # solo paga la cara del 6
+
+    def test_viva_solo_si_alguien_la_tiene(self):
+        h = armar([[(3, 3)], [(1, 4)], [(2, 5)]], mesa=[(0, 3)], izq=3, der=0, ultimo=0, turno=1)
+        self.assertTrue(h.viva(3))                      # J1 tiene el 3-3
+        self.assertFalse(h.viva(6))                     # todos los seises están en la pila
+
+    def test_tranca_no_paga_pase(self):
+        # mesa 0 y 1, todo lo de 0 y 1 fuera de las manos: nadie juega
+        h = armar([[(2, 3)], [(4, 4)], [(5, 5)]],
+                  mesa=[(0, 2), (0, 3), (0, 4), (0, 5), (1, 2), (1, 3), (1, 4)],
+                  izq=0, der=1, ultimo=0, turno=1)
+        h.no_va(1); h.no_va(2)
+        self.assertEqual(h.marcador, [0, 0, 0])
+        r = h.no_va(0)
+        self.assertEqual(r[0], 'tra')
+
+    def test_lectura_anterior_si_pagaba(self):
+        M.PASE_EN_TRANCA, M.CARA_EN_PILA_VIVA = True, True
+        try:
+            h = armar([[(2, 3)], [(4, 4)], [(5, 5)]],
+                      mesa=[(0, 2), (0, 3), (0, 4), (0, 5), (1, 2), (1, 3), (1, 4)],
+                      izq=0, der=1, ultimo=0, turno=1)
+            h.no_va(1); h.no_va(2)
+            self.assertEqual(h.marcador[0], 60)          # 0-6, 1-5 y 1-6 en la pila → caras "vivas"
+        finally:
+            M.PASE_EN_TRANCA, M.CARA_EN_PILA_VIVA = False, False
 
 
 class MuerteSubita(unittest.TestCase):

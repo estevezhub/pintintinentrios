@@ -2,7 +2,7 @@
 
 **Qué hace cada nivel, cuánto juega, cuánto cuesta, y cómo usarlos en un juego**
 
-28 de septiembre de 2026 · reglamento v1.7
+28 de septiembre de 2026 · reglamento v1.8 (mediciones con la lectura anterior salvo donde se indica)
 
 ---
 
@@ -37,6 +37,8 @@ Metodología completa en `pintintin-metodologia.md`.
 \* Python 3.9 en un núcleo de una Mac de 12 núcleos. En JavaScript moderno debería ser bastante más rápido; hay que medirlo al portar.
 
 **Fuentes**: 12.000 rondas por casilla (bots heurísticos), 3.000 (Sabio), 90.000 en tres juegos de semillas (Balance). Elo de la liga de 120.000 rondas (Maestro = 1000). Salidas en `datos/`.
+
+**Con el reglamento v1.8** (tranca sin pase, la pila mata la cara), 30.000 rondas contra dos Maestros: control 33,0% · Jugador 39,8% · Fogueado 33,4% · **Balance 30,4%**. El orden no cambia y Balance se separa más (auditoría §4.12).
 
 ### Tres cosas que muestra la tabla
 

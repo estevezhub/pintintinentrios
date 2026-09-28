@@ -1,0 +1,120 @@
+PERFIL · mesa 'maestros' ('maestro', 'maestro', 'maestro') · 20000 rondas · asientos rotados
+
+════════════════════════════════════════════════════════════════════════════════════════════
+ 1 · PUNTOS POR MANO
+════════════════════════════════════════════════════════════════════════════════════════════
+
+  101629 manos · 20000 rondas · 5.08 manos por ronda
+  Media por jugador y mano: 19.6 pts  (mediana 0 · anota 0 el 57.2% de las manos)
+    de pases (incluye capicúa): 8.2 · de cierre (dominada/tranca): 11.4
+  Una mano reparte en total 58.7 pts entre los tres
+  Cierres: dominada 47.8% · tranca 52.2%
+  Reparto de lo anotado por mano: p25 0 · p50 0 · p75 30 · p90 61 · p99 107
+
+  Por asiento respecto a quien sale
+                                 n   media   pases  cierre  gana mano  anota 0  pierde ronda
+    sale                    101629    25.8     8.5    17.3      47.9%    43.8%         18.8%
+    a su derecha            101629    16.0     7.1     8.9      27.0%    64.0%         41.3%
+    el tercero              101629    16.8     8.8     8.0      25.1%    63.7%         40.0%
+
+  Primera jugada oficial vs manos siguientes
+                                 n   media   pases  cierre  gana mano  anota 0  pierde ronda
+    1ª oficial · sale        20000    23.2     9.8    13.4      41.4%    48.6%         31.1%
+    1ª oficial · derecha     20000    17.8     8.1     9.7      30.4%    60.2%         34.7%
+    1ª oficial · tercero     20000    19.6    10.9     8.7      28.2%    59.1%         34.2%
+    siguientes · sale        81629    26.5     8.2    18.3      49.5%    42.6%         15.7%
+    siguientes · derecha     81629    15.6     6.9     8.7      26.2%    65.0%         42.9%
+    siguientes · tercero     81629    16.2     8.3     7.8      24.3%    64.8%         41.4%
+
+  Por política
+                                 n   media   pases  cierre  gana mano  anota 0  pierde ronda
+    maestro                 304887    19.6     8.2    11.4      33.3%    57.2%         33.3%
+
+  Por dobles repartidos
+                                 n   media   pases  cierre  gana mano  anota 0  pierde ronda
+    0                        49109    24.9     9.5    15.4      45.4%    46.2%         29.6%
+    1                       122903    21.9     9.1    12.7      37.2%    53.3%         32.0%
+    2                        98571    16.8     7.3     9.5      27.7%    62.2%         35.1%
+    3                        30529    11.8     5.3     6.6      19.1%    71.4%         37.9%
+    4                         3655     8.1     3.6     4.4      12.9%    79.0%         40.7%
+
+  Por palo más largo
+                                 n   media   pases  cierre  gana mano  anota 0  pierde ronda
+    2                        12517    13.1     2.6    10.5      29.4%    66.9%         36.3%
+    3                       186916    16.1     5.4    10.6      30.7%    62.1%         34.9%
+    4                        94602    24.4    12.1    12.2      36.7%    49.7%         31.3%
+    5                        10440    44.0    26.2    17.8      53.3%    26.7%         22.3%
+    6                          411    72.9    44.7    28.1      76.2%     9.0%         11.7%
+
+  Por caras distintas
+                                 n   media   pases  cierre  gana mano  anota 0  pierde ronda
+    4                          870    13.9    11.2     2.7       8.7%    68.9%         39.5%
+    5                        28455    16.4     9.9     6.5      19.5%    64.0%         36.4%
+    6                       139791    18.6     8.4    10.2      30.3%    59.3%         34.2%
+    7                       135771    21.2     7.5    13.7      39.5%    53.5%         31.7%
+
+  Por puntos repartidos en la mano
+                                 n   media   pases  cierre  gana mano  anota 0  pierde ronda
+    ≤35                       9983    30.3    12.2    18.1      45.9%    42.7%         28.5%
+    36-45                   129567    22.1     8.1    14.0      38.1%    53.1%         31.9%
+    46-55                   147132    16.9     7.6     9.2      29.4%    61.2%         34.7%
+    ≥56                      18205    17.3    10.7     6.6      23.8%    61.6%         35.3%
+
+  Por posición en el marcador al empezar la mano (desde la 2ª)
+                                 n   media   pases  cierre  gana mano  anota 0  pierde ronda
+    primero                  56823    24.5     9.3    15.2      41.7%    48.1%         11.8%
+    segundo                  97220    19.1     8.8    10.3      30.3%    59.1%         33.3%
+    tercero                  59400    18.4     8.9     9.6      28.5%    60.7%         67.6%
+    congelado 120+           31444    12.9     0.0    12.9      36.8%    63.2%          7.6%
+
+════════════════════════════════════════════════════════════════════════════════════════════
+ 2 · CUÁNDO SE PIERDE LA RONDA   (neutro 33,3%)
+════════════════════════════════════════════════════════════════════════════════════════════
+
+  situación                                                        pierde la ronda        n
+  último tras la mano 3, a 91-150 del segundo                 88.7%  [86.1 – 90.8]      690
+  último tras la mano 3, a 61-90 del segundo                  80.4%  [78.7 – 81.9]     2372
+  último tras la mano 3, a 41-60 del segundo                  72.4%  [70.8 – 73.9]     3332
+  último tras la mano 1, a 41-60 del segundo                  71.8%  [66.8 – 76.3]      344
+  nunca gana una mano en la ronda                             70.6%  [69.9 – 71.3]    16057
+  último tras la mano 4                                       70.4%  [69.6 – 71.3]    11468
+  último tras la mano 3                                       68.3%  [67.5 – 69.0]    14491
+  último tras la mano 3, a 21-40 del segundo                  66.7%  [65.3 – 68.1]     4333
+  último tras la mano 2                                       63.5%  [62.7 – 64.3]    13565
+  otro cruza 120 y yo estoy por debajo de 60                  61.7%  [61.1 – 62.2]    25358
+  último tras la mano 1, a 21-40 del segundo                  59.0%  [57.4 – 60.6]     3681
+  anota 0 en las dos primeras manos                           57.5%  [56.8 – 58.2]    21355
+  último tras la mano 1                                       56.9%  [55.6 – 58.3]     5148
+  último tras la mano 3, a 1-20 del segundo                   55.1%  [53.5 – 56.7]     3764
+  va a muerte súbita                                          50.0%  [48.5 – 51.5]     4368
+  cede 60+ pts de pases en la 1ª mano                         45.7%  [44.6 – 46.7]     9020
+  anota 0 en la 1ª mano                                       45.6%  [45.1 – 46.2]    33581
+  último tras la mano 1, a 1-20 del segundo                   45.3%  [42.4 – 48.2]     1106
+  pasa 3+ veces en la 1ª mano                                 42.0%  [41.1 – 42.9]    12028
+  4 dobles en la 1ª mano                                      40.7%  [37.2 – 44.3]      732
+  3 dobles en la 1ª mano                                      38.0%  [36.8 – 39.3]     6111
+  palo largo de 2 en la 1ª mano                               35.7%  [33.8 – 37.6]     2474
+  palo largo de 3 en la 1ª mano                               35.1%  [34.6 – 35.6]    36602
+  juega justo después del que sale                            34.7%  [34.1 – 35.4]    20000
+  2 dobles en la 1ª mano                                      34.5%  [33.8 – 35.2]    19308
+  es el tercero en jugar la 1ª                                34.2%  [33.6 – 34.9]    20000
+  política maestro                                            33.3%  [33.0 – 33.7]    60000
+  1 dobles en la 1ª mano                                      32.4%  [31.8 – 33.0]    24004
+  sale en la 1ª (tiene el doble más alto)                     31.1%  [30.4 – 31.7]    20000
+  palo largo de 4 en la 1ª mano                               30.9%  [30.2 – 31.6]    18755
+  0 dobles en la 1ª mano                                      29.9%  [29.0 – 30.8]     9826
+  otro cruza 120 y yo estoy entre 60 y 119                    28.3%  [27.6 – 29.1]    13690
+  segundo tras la mano 1                                      26.3%  [25.1 – 27.5]     4929
+  segundo tras la mano 2                                      25.4%  [24.7 – 26.1]    13437
+  segundo tras la mano 3                                      23.6%  [22.9 – 24.3]    14378
+  segundo tras la mano 4                                      22.6%  [21.8 – 23.4]    11363
+  palo largo de 5 en la 1ª mano                               22.1%  [20.3 – 23.9]     2089
+  congelado en 120+ sin cerrar la ronda                       14.3%  [13.6 – 15.1]     7693
+  gana la 1ª mano                                             14.1%  [13.6 – 14.5]    20000
+  primero tras la mano 1                                      13.7%  [13.2 – 14.2]    19728
+  primero tras la mano 2                                       9.6%  [ 9.1 – 10.0]    18641
+  va a 120+ mientras otro ya está en 120+                      9.2%  [ 8.5 –  9.9]     6741
+  primero tras la mano 3                                       7.8%  [ 7.3 –  8.2]    15614
+  primero tras la mano 4                                       6.9%  [ 6.5 –  7.4]    11568
+
+(55 s)

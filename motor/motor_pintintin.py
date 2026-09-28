@@ -30,11 +30,19 @@ META = 150
 TECHO_BONO = 149                             # un bono nunca alcanza 150
 TOPE_JUGADA = 60                             # máximo cobrable en una jugada
 
-# PREGUNTA ABIERTA DEL REGLAMENTO: cuando la jugada deja la mesa trancada, los
-# dos "no va" que siguen ¿le pagan pase al que trancó? Leído literalmente, sí
-# (y pasa en ~84% de las trancas, ~35 pts). Muchas mesas cantan la tranca sin
-# pasar. False = la tranca se declara al instante y no paga pase.
-PASE_EN_TRANCA = True
+# Dos reglas que el reglamento v1.7 dejaba abiertas (§12), resueltas por el
+# informante el 28-sep-2026 (reglamento v1.8):
+#
+# PASE_EN_TRANCA · Cuando la jugada deja la mesa trancada, los "no va" que
+#   siguen NO pagan pase: la tranca se canta al instante. (La lectura literal
+#   anterior pagaba en ~84% de las trancas, ~35 pts.)
+# CARA_EN_PILA_VIVA · Una cara cuyas fichas restantes están todas en la pila
+#   está MUERTA: nadie en la mesa puede jugarla.
+#
+# Las mediciones publicadas hasta el 28-sep-2026 usan la lectura anterior
+# (ambas en True). Para reproducirlas: poner las dos en True.
+PASE_EN_TRANCA = False
+CARA_EN_PILA_VIVA = False
 
 
 def tiene(t, n):
@@ -94,7 +102,10 @@ class Mano:
 
     # ---- consultas ----
     def viva(self, n):
-        return any(tiene(t, n) for t in FICHAS if t not in self.mesa)
+        """¿Alguien puede llegar a jugar el número n? (cara viva)"""
+        if CARA_EN_PILA_VIVA:
+            return any(tiene(t, n) for t in FICHAS if t not in self.mesa)
+        return any(tiene(t, n) for m in self.manos for t in m)
 
     def caras_vivas(self):
         if self.izq is None:
