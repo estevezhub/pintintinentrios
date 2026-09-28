@@ -1,10 +1,10 @@
 # PINTINTÍN
 
-**Dominó dominicano para tres jugadores · reglamento, análisis y motor**
+**Dominó dominicano para tres jugadores · reglamento, análisis, bots y motor**
 
 Hasta donde se pudo verificar, **no existe ningún otro análisis de este juego**: ni artículo, ni reglas publicadas, ni estudio. La única fuente escrita conocida es *El juego de dominó* de Frank Nicolás C. (Cervecería Nacional Dominicana, Santo Domingo, ~199?), que no está digitalizado.
 
-Este repositorio reconstruye el reglamento desde la tradición oral, lo mide con simulación y entrega herramientas para jugarlo y estudiarlo.
+Este repositorio reconstruye el reglamento desde la tradición oral, lo mide con simulación —**más de 3 millones de rondas simuladas**— y entrega bots de seis niveles, herramientas para jugarlo y estudiarlo, y un método reproducible para seguir investigándolo.
 
 ---
 
@@ -12,65 +12,12 @@ Este repositorio reconstruye el reglamento desde la tradición oral, lo mide con
 
 | Si eres… | Lee |
 |---|---|
-| **Alguien que quiere jugar** | `reglas/pintintin-reglas.md` |
-| **Alguien que quiere ganar** | `analisis/pintintin-estrategia.md` |
-| **Alguien que quiere entenderlo a fondo** | `analisis/pintintin-god-mode.md` |
-| **Un agente o dev que retoma el proyecto** | `analisis/pintintin-bitacora.md` ← **empieza aquí** |
-
----
-
-## Contenido
-
-```
-reglas/
-  pintintin-reglas.md        Reglamento v1.7, completo y cerrado.
-                             Base de todo lo demás.
-
-analisis/
-  pintintin-estrategia.md    Estrategia medida: alianzas, cerco, conteo,
-                             palos frágiles, administración de la mano.
-  pintintin-god-mode.md      Análisis profundo en 12 partes. Todo con
-                             porcentajes medidos por simulación.
-  pintintin-bitacora.md      Documento de traspaso. Qué se hizo, cómo
-                             funciona el motor, y los tres objetivos.
-
-apps/
-  mesa-pintintin.html        Laboratorio: arma cualquier posición, edita
-                             manos y marcador, y el motor dice qué paga.
-  dojo-pintintin.html        Juega contra 2 bots (5 niveles) con revisión
-                             en vivo de cada jugada y análisis de mano.
-
-motor/
-  motor_pintintin.py         Implementación de referencia. Reglas, bots,
-                             inferencia y arnés de simulación.
-```
-
-Los dos `.html` son autocontenidos: se abren en cualquier navegador, sin servidor ni dependencias.
-
----
-
-## El motor
-
-```bash
-python3 motor/motor_pintintin.py                 # benchmark
-python3 motor/motor_pintintin.py --rondas 20000  # más preciso
-```
-
-Salida típica — **el neutro es 33,3%, menos es mejor**:
-
-```
-  1 Novato   (azar)                 47,5%
-  2 Casual   (suelta alto)          36,2%
-  3 Jugador  (cuenta fallos)        33,9%
-  4 Fogueado (+ predice)            27,7%
-  5 Maestro  (+ cerco/cebo)         26,7%
-```
-
-### La métrica
-
-> **El % de rondas en que un jugador queda ÚLTIMO.**
-
-En pintintín **solo pierde el tercero**: primero y segundo ganan igual. Por eso nada se optimiza por puntos — se optimiza por no quedar abajo. Es la trampa más fácil de caer al programar un bot para este juego.
+| **Alguien que quiere jugar** | [`reglas/pintintin-reglas.md`](reglas/pintintin-reglas.md) |
+| **Alguien que quiere ganar** | [`analisis/pintintin-estrategia.md`](analisis/pintintin-estrategia.md) y el §5 de la [auditoría](analisis/pintintin-auditoria.md) |
+| **Alguien que quiere entenderlo a fondo** | [`analisis/pintintin-god-mode.md`](analisis/pintintin-god-mode.md) → [`analisis/pintintin-auditoria.md`](analisis/pintintin-auditoria.md) |
+| **Alguien que va a programar un juego** | [`analisis/pintintin-bots.md`](analisis/pintintin-bots.md) y [`motor/`](motor/) |
+| **Alguien que quiere investigar** | [`analisis/pintintin-metodologia.md`](analisis/pintintin-metodologia.md) |
+| **Un agente o dev que retoma el proyecto** | [`analisis/pintintin-bitacora.md`](analisis/pintintin-bitacora.md) ← **empieza aquí** |
 
 ---
 
@@ -87,29 +34,133 @@ En pintintín **solo pierde el tercero**: primero y segundo ganan igual. Por eso
 - **Meta 150. Solo pierde el tercero.**
 - **Pasar con ficha:** el infractor pierde la ronda, marcador a 0 – 0 – 0.
 
+Cuatro puntos del reglamento siguen abiertos (el código obligó a decidirlos): ver reglamento §12.
+
 ---
 
-## Diez hallazgos
+## Los bots
+
+| Nivel | Nombre | Idea | Pierde vs 2 Maestros | Elo |
+|---|---|---|---|---|
+| 1 | Novato | Azar | 53,4% | 850 |
+| 2 | Casual | Suelta alto sin estrecharse | 42,1% | 933 |
+| 3 | Jugador | **Cuenta los fallos** | 37,8% | 957 |
+| 4 | Fogueado | + **cierra la mesa** | 33,7% | 1000 |
+| 5 | Maestro | + cerco y cebo | 33,3% | 1000 |
+| 5b | **Balance** | Ahoga; después, puntas donde **tú** respondes más que ellos | **31,6%** | 1017 |
+| 6 | **Sabio** | Simula el resto de la mano sobre repartos posibles | **28,3–30,4%** | — |
+
+Neutro = 33,3% (solo pierde uno de tres). Detalles, costos y recomendaciones de dificultad para un juego en [`analisis/pintintin-bots.md`](analisis/pintintin-bots.md).
+
+---
+
+## Los hallazgos
+
+### Estructura del juego
 
 | | |
 |---|---|
-| Contar los fallos | **−14 puntos**, y cuesta dos frases por rival |
-| Techo del conteo | 13,8% (ver las manos). La habilidad manda |
-| Ir último tras 3 manos | 66% de perder. La trampa se cierra temprano |
-| Cruzar 120 primero | 96,5% de no perder. Es ganar |
-| La alianza | Hunde al descuidado al 47,1%; contra quien cuenta, 34,0% |
-| Cada doble que traes | ~5 puntos menos de ganar la mano |
-| Anchura vs concentración | 7 caras gana más que 4 de un palo, y llega más seguido |
-| Salir de doble | Paga 4 a 25 veces más que salir de ficha de dos palos |
-| La pila al final | Con 2 fichas por cabeza, **la mitad de lo que falta está fuera** |
-| Predecir | No se predicen fichas (38-53%), se predice si puede jugar (**91-99%**) |
+| **Solo pierde el tercero** | Tu puntuación no importa; importa tu distancia sobre el último |
+| **La mano típica no da nada** | Media 26 pts por jugador y mano, **mediana 0**: el 52% de las manos no anotas |
+| **Salir vale 20 puntos** | El que sale gana la mano el 47%; los otros, ~26%. Y sale el que ganó la anterior |
+| **La primera mano vale una ronda** | Ganarla → pierdes 14%. No anotar en ella → 48% |
+| **La distancia manda más que el puesto** | Último a <20 del segundo: ~50%. A 60+: ~80% |
+| **Cruzar 120 primero** | 96,8% de no perder |
+| **El reloj lo pone el líder** | Con el líder en 100 quedan ~2 manos; en 120+, la próxima puede ser la última |
+
+### Lo que funciona (medido contra rivales buenos)
+
+| | |
+|---|---|
+| **Contar los fallos** | La técnica más rentable por esfuerzo: dos frases por rival |
+| **Cerrar la mesa** | Dejar puntas a las que responden pocas fichas que no ves |
+| **Balance de respuestas** | …pero sin cerrártela a ti: −1,8 puntos sobre el Maestro |
+| **Salir de doble, con compañeras** | Doble + 3 del palo: la mejor salida el 83% de las veces. Doble solo: da igual |
+| **Mirar hacia adelante** | Simular la mano (Sabio): −3 a −5 puntos |
+
+### Lo que no funciona (refutado)
+
+| Idea | Costo |
+|---|---|
+| Guardar las fichas bajas | **+17,5** puntos de perder |
+| Soltar peso antes que ahogar | +11,9 |
+| Hacerse cómplice del único líder para forzar muerte súbita | +8 a +10 |
+| "Repite, mata y tranca" como regla fija | +5 a +10 |
+| Farolear rompiendo tu pinza | +5 |
+| Mantener dos caras vivas mientras cobras | +5,4 |
+| Apostar a la tranca o a dominar cuando vas abajo | +2 a +6 |
+
+Todo, con intervalos de confianza, en la [auditoría](analisis/pintintin-auditoria.md).
+
+---
+
+## Contenido
+
+```
+reglas/
+  pintintin-reglas.md          Reglamento v1.7 + preguntas abiertas (§12).
+
+analisis/
+  pintintin-estrategia.md      Estrategia para jugadores: alianzas, conteo,
+                               cerco, palos frágiles, administración.
+  pintintin-god-mode.md        Análisis profundo en 12 partes.
+  pintintin-auditoria.md       Revisión y extensión: pruebas, remediciones,
+                               Sabio, salida, riesgo, cómplice, remontada,
+                               tácticas de mesa, campaña de 2,8M rondas.
+  pintintin-bots.md            Los seis niveles de bot: algoritmo, fuerza,
+                               costo y dificultades para un juego.
+  pintintin-metodologia.md     Cómo se mide todo, errores cometidos y cómo
+                               reproducir cada cifra.
+  pintintin-bitacora.md        Documento de traspaso.
+  datos/                       Salidas crudas de cada experimento.
+
+motor/                         Python 3.9+, sin dependencias.
+  motor_pintintin.py           Implementación de referencia: reglas, bots
+                               1–5b, inferencia, rondas.
+  test_motor.py                21 pruebas contra el reglamento.
+  laboratorio.py               Torneos paralelos con IC 95%, Sabio (nivel 6),
+                               simulador de rollouts, tabla de valor.
+  campana.py                   Tribunal de hipótesis, búsqueda evolutiva,
+                               imitación del Sabio, liga con Elo.
+  perfil.py                    Puntos por mano y situaciones de riesgo.
+  complice.py                  ¿Ayudar al único líder? Dura vs suave.
+  remontada.py                 Ir abajo: el reloj y los planes alternativos.
+  tacticas.py                  Farol de la pinza; repite, mata y tranca.
+  tabla_valor.json             P(quedar último) según el marcador.
+
+apps/                          HTML autocontenido, sin servidor.
+  mesa-pintintin.html          Laboratorio: arma una posición y el motor
+                               dice qué paga.
+  dojo-pintintin.html          Juega contra 2 bots (niveles 1–5) con
+                               revisión de cada jugada.
+```
+
+---
+
+## Uso rápido
+
+```bash
+python3 -m unittest motor/test_motor.py                                   # reglas
+python3 motor/motor_pintintin.py                                          # benchmark clásico
+python3 motor/laboratorio.py bench balance fogueado --rival maestro --rondas 12000
+python3 motor/perfil.py --ejemplo                                         # media por mano y riesgo
+```
+
+Todo corre en paralelo con todos los núcleos disponibles. Lista completa de comandos en la [metodología](analisis/pintintin-metodologia.md#7-reproducir-cada-cifra).
+
+### La métrica
+
+> **El % de rondas en que un jugador queda ÚLTIMO.** Neutro 33,3%, menos es mejor.
+
+En pintintín **solo pierde el tercero**: primero y segundo ganan igual. Por eso nada se optimiza por puntos — se optimiza por no quedar abajo. Es la trampa más fácil de caer al programar un bot para este juego.
 
 ---
 
 ## Honestidad del método
 
-- Lo que lleva **porcentaje está medido** por simulación (7.000 a 120.000 repeticiones, asientos rotados). Lo que no, está razonado desde la estructura y va marcado como tal.
-- **Este proyecto ya se equivocó cuatro veces** y las correcciones están documentadas en la bitácora: un bug de asientos que hizo concluir que la habilidad no importaba, la salida con blanco, el líder congelado, y el término anti-cebo del bot maestro. Conviene leerlas antes de añadir nada.
+- Lo que lleva **porcentaje está medido** por simulación, con intervalo de confianza del 95%. Lo que no, está razonado desde la estructura y va marcado como tal.
+- **Este proyecto se equivocó siete veces**, y todas las correcciones están documentadas en la [metodología](analisis/pintintin-metodologia.md#6-los-errores-que-ya-se-cometieron). Conviene leerlas antes de añadir nada.
+- **Los bots no hablan, no leen caras ni pactan en voz alta.** El meta-juego social de una mesa real no está medido.
 - **El reglamento tiene una sola fuente**: un jugador habitual. Eso es un testimonio, no un estándar. Contrastarlo con otras mesas dominicanas es la mejora más valiosa que se le puede hacer a este repositorio.
 
 ---

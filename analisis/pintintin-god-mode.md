@@ -14,6 +14,8 @@ Lo que no lleva porcentaje **está razonado** desde la estructura del juego. Va 
 
 La unidad de medida es siempre la misma: **qué porcentaje de rondas pierdes**. Como solo pierde uno de tres, el punto neutro es **33,3%**. Todo lo que baje de ahí es ventaja; todo lo que suba es error.
 
+> **Actualización (28-sep-2026):** este análisis se revisó y extendió en `pintintin-auditoria.md`. Casi todo se reproduce; lo que cambió está en la **Parte 13** al final.
+
 ---
 
 # PARTE 1 · LA ESTRUCTURA
@@ -685,7 +687,7 @@ Unas **dos frases por rival en toda la mano**. De ahí destilas lo único accion
 
 > ## Los números que fallaron LOS DOS. Esa es tu lista de cobro.
 
-## 11.6 La progresión: qué aprender primero
+## 11.10 La progresión: qué aprender primero
 
 No se aprende todo a la vez. En orden de rendimiento por esfuerzo:
 
@@ -873,3 +875,24 @@ Las simulaciones implementan el reglamento v1.7 completo, incluidas la salida au
 **Correcciones a versiones anteriores de este análisis.** Una primera versión concluía que ninguna técnica de fichas le ganaba al azar: era un error de mapeo de asientos en el código, que empujaba todo hacia 33,3%. Corregido, las diferencias son enormes. También se corrigieron dos afirmaciones razonadas que la medición terminó refutando: que convenía salir con blanco o uno (es al revés: doble siempre), y que el líder congelado en 120 quedaba vulnerable (queda 96,5% seguro).
 
 Hasta donde pude encontrar, **no existe ningún otro análisis de este juego**: ni artículo, ni reglas publicadas, ni estudio. La única fuente escrita conocida es *El juego de dominó* de Frank Nicolás C. (Cervecería Nacional Dominicana, Santo Domingo, ~199?), que no está digitalizado.
+
+---
+
+# PARTE 13 · LO QUE CAMBIÓ CON LA AUDITORÍA
+
+Remedido con intervalos de confianza y contra rivales buenos (dos Maestros). Detalle en `pintintin-auditoria.md`.
+
+| Parte | Antes | Ahora |
+|---|---|---|
+| 1.3 | Último tras 3 manos: 65,8% | **70,8%** [70,2 – 71,4]. La trampa es más fuerte |
+| 1.4 | Cruzar 120 primero: 96,5% | 96,8%. Confirmado |
+| 3.1–3.2 | La escalera medida contra rivales flojos | Contra Maestros: Fogueado = Maestro (33,7 / 33,3). **Cerco y cebo no se notan** entre buenos |
+| 3.3 | El conteo manda; lo demás desempata | Confirmado y ampliado: 44 reglas juzgadas; **ninguna** prioridad única mejora al Maestro, diez lo empeoran |
+| 3.3 | — | **Nuevo**: el *balance de respuestas* (ahoga; después, puntas donde tú respondes más que ellos) mejora 1,8 puntos |
+| 4.3 | Guardar el veto: −5,9 contra el azar | Como prioridad **empeora** (+3,1) contra Maestros |
+| 4.5 | Bola de nieve: no muevas la mesa / rompe la del otro | El efecto 3,8× existe, pero **jugar por él no rinde** (neutro) |
+| 6.1–6.3 | La alianza | Neutra entre Maestros; sube en mesas con jugadores flojos |
+| 7 | Lo que no funciona | + hacerse cómplice del líder (+8 a +10), farol de la pinza (+5), "repite, mata y tranca" fijo (+5 a +10), planes de remontada (+2 a +6) |
+| 12.7 | Salir de doble acompañado | Confirmado con un oráculo: doble + 3 del palo es la mejor salida el 83%; doble solo ≈ ficha cualquiera; la peor, la que te quita una cara |
+| 10 | Techo del conteo: 13,8% | Con búsqueda: el **Sabio** (simula la mano) baja a 28,3% contra Maestros; viendo las manos, 15,5% |
+| — | — | **Nuevo**: la mano típica no da nada (mediana 0); salir vale 20 puntos de ganar la mano; la distancia al segundo pesa más que el puesto |

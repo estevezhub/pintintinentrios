@@ -1,0 +1,87 @@
+── ¿Dura o suave al líder?  Marcador inicial [líder, 0, 0], yo empatado con el otro
+   control = mi juego sin ningún término de ayuda (aísla el efecto)
+    líder lado       estrategia                                    pierdo   súbita  líder pierde
+       30 derecha    maestro · normal                39.9%  [38.6 – 41.1]    10.6%         18.1%
+       30 derecha    maestro · control               39.9%  [38.6 – 41.1]    10.6%         18.0%
+       30 derecha    maestro · suave                 54.2%  [53.0 – 55.5]    16.4%         14.7%
+       30 derecha    maestro · dura                  39.9%  [38.6 – 41.1]    10.6%         18.2%
+       30 derecha    maestro · suave_barato          39.9%  [38.7 – 41.2]    10.5%         18.0%
+       30 derecha    maestro · dura_barato           39.8%  [38.6 – 41.1]    10.6%         18.1%
+
+       30 izquierda  maestro · normal                41.4%  [40.1 – 42.6]    11.7%         19.0%
+       30 izquierda  maestro · control               41.2%  [40.0 – 42.5]    11.7%         19.1%
+       30 izquierda  maestro · suave                 50.8%  [49.5 – 52.0]    12.1%         17.5%
+       30 izquierda  maestro · dura                  41.4%  [40.1 – 42.6]    11.7%         18.9%
+       30 izquierda  maestro · suave_barato          41.2%  [39.9 – 42.4]    11.7%         19.0%
+       30 izquierda  maestro · dura_barato           41.3%  [40.0 – 42.5]    11.7%         19.1%
+
+       90 derecha    maestro · normal                46.0%  [44.7 – 47.2]    19.6%          6.4%
+       90 derecha    maestro · control               46.0%  [44.7 – 47.2]    19.5%          6.5%
+       90 derecha    maestro · suave                 59.4%  [58.2 – 60.7]    28.8%          5.8%
+       90 derecha    maestro · dura                  46.0%  [44.8 – 47.3]    19.1%          6.4%
+       90 derecha    maestro · suave_barato          46.0%  [44.7 – 47.2]    19.5%          6.4%
+       90 derecha    maestro · dura_barato           45.9%  [44.7 – 47.2]    19.5%          6.5%
+
+       90 izquierda  maestro · normal                46.1%  [44.9 – 47.4]    19.4%          6.9%
+       90 izquierda  maestro · control               46.1%  [44.9 – 47.4]    19.3%          6.9%
+       90 izquierda  maestro · suave                 59.0%  [57.8 – 60.3]    21.0%          6.1%
+       90 izquierda  maestro · dura                  46.4%  [45.1 – 47.6]    19.4%          6.8%
+       90 izquierda  maestro · suave_barato          46.2%  [45.0 – 47.5]    19.3%          6.8%
+       90 izquierda  maestro · dura_barato           46.2%  [44.9 – 47.4]    19.4%          6.9%
+
+      140 derecha    maestro · normal                48.8%  [47.6 – 50.1]    30.2%          1.6%
+      140 derecha    maestro · control               48.7%  [47.5 – 50.0]    30.1%          1.6%
+      140 derecha    maestro · suave                 62.5%  [61.2 – 63.7]    40.7%          1.6%
+      140 derecha    maestro · dura                  48.9%  [47.6 – 50.1]    30.0%          1.6%
+      140 derecha    maestro · suave_barato          48.7%  [47.5 – 50.0]    30.2%          1.6%
+      140 derecha    maestro · dura_barato           48.8%  [47.5 – 50.0]    30.1%          1.6%
+
+      140 izquierda  maestro · normal                48.2%  [47.0 – 49.5]    29.8%          1.8%
+      140 izquierda  maestro · control               48.2%  [47.0 – 49.5]    29.8%          1.7%
+      140 izquierda  maestro · suave                 62.4%  [61.2 – 63.7]    33.9%          1.6%
+      140 izquierda  maestro · dura                  48.4%  [47.2 – 49.7]    29.7%          1.7%
+      140 izquierda  maestro · suave_barato          48.1%  [46.8 – 49.4]    29.8%          1.7%
+      140 izquierda  maestro · dura_barato           48.2%  [47.0 – 49.5]    29.7%          1.8%
+
+       30 derecha    jugador · normal                45.0%  [43.7 – 46.2]    11.5%         15.3%
+       30 derecha    jugador · control               43.0%  [41.8 – 44.3]    10.6%         16.6%
+       30 derecha    jugador · suave                 56.5%  [55.3 – 57.8]    15.5%         13.7%
+       30 derecha    jugador · dura                  42.9%  [41.7 – 44.2]    10.3%         16.8%
+       30 derecha    jugador · suave_barato          43.1%  [41.9 – 44.4]    10.7%         16.6%
+       30 derecha    jugador · dura_barato           43.1%  [41.8 – 44.3]    10.6%         16.7%
+
+       30 izquierda  jugador · normal                47.1%  [45.8 – 48.3]     9.9%         17.7%
+       30 izquierda  jugador · control               45.5%  [44.2 – 46.7]    10.2%         17.9%
+       30 izquierda  jugador · suave                 56.3%  [55.1 – 57.6]    11.6%         15.9%
+       30 izquierda  jugador · dura                  45.5%  [44.2 – 46.7]    10.1%         18.0%
+       30 izquierda  jugador · suave_barato          45.4%  [44.2 – 46.7]    10.2%         17.9%
+       30 izquierda  jugador · dura_barato           45.5%  [44.2 – 46.7]    10.2%         18.0%
+
+       90 derecha    jugador · normal                51.0%  [49.7 – 52.2]    21.8%          4.9%
+       90 derecha    jugador · control               48.1%  [46.9 – 49.4]    18.9%          5.7%
+       90 derecha    jugador · suave                 62.1%  [60.9 – 63.4]    28.8%          4.5%
+       90 derecha    jugador · dura                  48.3%  [47.0 – 49.5]    18.7%          5.7%
+       90 derecha    jugador · suave_barato          48.3%  [47.0 – 49.5]    19.0%          5.8%
+       90 derecha    jugador · dura_barato           48.2%  [47.0 – 49.5]    18.9%          5.7%
+
+       90 izquierda  jugador · normal                52.3%  [51.0 – 53.6]    18.8%          6.2%
+       90 izquierda  jugador · control               50.6%  [49.4 – 51.9]    19.4%          6.1%
+       90 izquierda  jugador · suave                 61.7%  [60.5 – 62.9]    21.4%          5.8%
+       90 izquierda  jugador · dura                  50.3%  [49.0 – 51.5]    19.3%          6.1%
+       90 izquierda  jugador · suave_barato          50.5%  [49.3 – 51.8]    19.5%          6.1%
+       90 izquierda  jugador · dura_barato           50.6%  [49.3 – 51.9]    19.5%          6.2%
+
+      140 derecha    jugador · normal                51.3%  [50.0 – 52.5]    34.2%          1.2%
+      140 derecha    jugador · control               50.1%  [48.8 – 51.3]    30.1%          1.6%
+      140 derecha    jugador · suave                 63.5%  [62.2 – 64.7]    41.1%          1.2%
+      140 derecha    jugador · dura                  50.0%  [48.7 – 51.2]    30.1%          1.6%
+      140 derecha    jugador · suave_barato          50.1%  [48.9 – 51.4]    30.2%          1.6%
+      140 derecha    jugador · dura_barato           50.1%  [48.9 – 51.4]    30.1%          1.6%
+
+      140 izquierda  jugador · normal                53.1%  [51.8 – 54.4]    31.0%          1.7%
+      140 izquierda  jugador · control               51.4%  [50.1 – 52.7]    29.3%          1.7%
+      140 izquierda  jugador · suave                 65.2%  [63.9 – 66.3]    33.3%          1.7%
+      140 izquierda  jugador · dura                  51.5%  [50.2 – 52.7]    29.4%          1.7%
+      140 izquierda  jugador · suave_barato          51.3%  [50.0 – 52.5]    29.2%          1.7%
+      140 izquierda  jugador · dura_barato           51.4%  [50.2 – 52.7]    29.3%          1.7%
+

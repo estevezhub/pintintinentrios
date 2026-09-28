@@ -1,0 +1,26 @@
+LIGA · 21 estrategias · 120000 rondas en mesas de 3 al azar
+Puntuación estilo Elo: Maestro = 1000; +400 = diez veces menos probable quedar último en la misma mesa
+
+   # estrategia                                    puntos   pierde   rondas
+   1 spec:{"lin":{"ah":0.205,"cobro2":0.487,"amen":-0.257,"amen_sig":-0.165,"amen_ter":0.177,"cob":0.262,"pierde":0.551,"caras":0.447,"pts":0.037,"doble":1.232,"cerco":-0.228,"cebo":0.325,"vivas":-0.288,"muertas":-0.316,"repite":-0.075,"mata":0.184,"sostener":-0.627,"ah_sig":0.275,"ah_ter":0.284,"ah_ult":0.416,"ah_lid":-0.085,"cob*frozen":-0.09,"ah*frozen":-0.288,"cerco*soy_ult":0.072,"pts*soy_ult":0.048,"sostener*bola":-0.36}}    1022    26.9%    17160
+   2 spec:{"lin":{"ah":10,"amen":-1.0,"cob":1.0,"pts":0.3}}    1017    27.4%    17016
+   3 spec:{"lin":{"ah":10.509,"cobro2":0.687,"amen":-1.271,"amen_sig":-0.022,"amen_ter":-0.113,"cob":1.009,"pierde":-0.329,"caras":0.397,"pts":0.349,"doble":0.08,"cebo":0.418,"muertas":0.138,"frag":-0.313,"repite":0.029,"mata":0.224,"sostener":0.057,"romper":-0.339,"tranca":-0.449,"ah_sig":-0.199,"ah_ter":-0.101,"ah_ult":0.202,"ah_lid":0.223,"peso_mano":-0.139,"pts*frozen":0.104,"cob*frozen":-0.435,"ah*frozen":-0.472,"cerco*soy_ult":-0.292,"pts*soy_ult":0.09,"sostener*bola":-0.171}}    1013    27.9%    16954
+   4 hip:alianza total (ahoga al último)             1006    28.8%    16907
+   5 hip:cierra al de tu derecha                     1005    29.0%    17102
+   6 lector                                          1002    29.2%    17009
+   7 fogueado                                        1000    29.5%    17160
+   8 maestro                                         1000    29.6%    17264
+   9 marcador                                         999    29.7%    17230
+  10 hip:Maestro en 3 términos                        998    29.8%    17235
+  11 hip:mano ancha (prioridad)                       994    30.2%    17127
+  12 rmt:rmt_d                                        994    30.2%    17051
+  13 hip:guardar el veto (prioridad)                  976    32.6%    17155
+  14 farol:siempre                                    963    34.3%    17121
+  15 jugador                                          957    35.2%    17136
+  16 hip:dos caras vivas mientras cobras              952    35.8%    17085
+  17 hip:soltar las altas primero                     940    37.5%    17155
+  18 casual                                           933    38.6%    17449
+  19 rmt:rmt_puro                                     928    39.2%    17219
+  20 hip:guardar las bajas                            873    47.4%    17315
+  21 novato                                           850    50.9%    17150
+(415 s)

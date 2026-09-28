@@ -1,0 +1,19 @@
+A · REPITE, MATA Y TRANCA — cada variante contra dos Maestros · neutro 33,3%
+
+  maestro       32.8%  [32.0 – 33.7]
+  repite        35.4%  [34.6 – 36.3]
+  repite_d      33.2%  [32.4 – 34.1]
+  mata          37.8%  [36.9 – 38.6]
+  mata_d        33.8%  [32.9 – 34.6]
+  tranca        33.3%  [32.4 – 34.1]
+  tranca_pts    33.3%  [32.4 – 34.1]
+  rmt           38.0%  [37.2 – 38.9]
+  rmt_d         34.2%  [33.4 – 35.1]
+  rmt_puro      42.8%  [41.9 – 43.7]
+
+  La regla tal cual, contra dos Jugadores (nivel 3):
+  maestro       26.3%  [25.5 – 27.1]
+  rmt_puro      39.5%  [38.6 – 40.4]
+  rmt_d         28.5%  [27.7 – 29.3]
+
+(254 s)

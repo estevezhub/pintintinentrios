@@ -2,7 +2,35 @@
 
 **Cómo se gana de verdad · análisis del modelo de juego**
 
-28 de septiembre de 2026 · complemento del reglamento v1.6
+28 de septiembre de 2026 · complemento del reglamento v1.7
+
+---
+
+> ## Actualización · auditoría del 28-sep-2026
+>
+> Todas las reglas de este documento se volvieron a juzgar **contra rivales buenos** (dos Maestros), con intervalos de confianza. Detalle en `pintintin-auditoria.md`; método en `pintintin-metodologia.md`. Resumen:
+>
+> | Regla (§11) | Veredicto medido |
+> |---|---|
+> | 1 · Juega para no quedar tercero | ✔ **Confirmada**, también mirando hacia adelante: juzgar por puntos empeora al Sabio |
+> | 2–3 · La alianza, y barata | ○ **Neutra entre buenos** (±0,1). En mesas con jugadores flojos, la alianza total sí sube (Elo 1006) |
+> | 4 · Cuenta los fallos | ✔ **Confirmada**: del nivel 2 al 3 son −4,3 puntos contra Maestros |
+> | 5 · Si eres el objetivo, ataca al segundo | ○ **Neutra**: igual que jugar normal (§4.9) |
+> | 6 · Planea tu mano ganadora antes de 120 | ○ Las variantes de 120+ son neutras |
+> | 7 · Cebo: abre las caras que te faltan | ○ **Neutra**: cerco y cebo no se notan entre buenos |
+> | 8 · Mira las jugadas que se hacen daño | ○ La lectura acierta el **85%**, pero no da ventaja medible |
+> | 9 · Repite la cara por defecto | ◐ **El mecanismo es real** (el siguiente pasa 2–3× más), **como regla fija empeora** (+2,6). Repite cuando la cara se agota (§4.10) |
+> | 10, 15 · Trabaja al de tu derecha | ◐ Neutra sola (−0,9), pero **es lo que hace el Sabio**: cierra al de su derecha y deja juego al de su izquierda |
+> | 11 · Sostén tu racha; rompe la del otro | ○ **Neutra**; la búsqueda automática incluso castiga romper la racha |
+> | 12 · Tu última ficha es un veto | ✘ **Como prioridad empeora** (+3,1). Como desempate, neutra |
+> | 13–14 · Cuenta lo que falta; descuenta la pila | ✔ El techo con información es enorme (15,5%) |
+> | §6 · Sal de doble | ✔ **Confirmada**, y cuenta las compañeras: doble + 3 del palo es la mejor salida el 83% de las veces |
+> | §7 · Los frágiles | ✘ Dejar puntas en blanco o uno empeora (+8,5) |
+> | §8, §12 · Suelta alto / mano ancha | ✘ **Como prioridad empeoran** (+8,5 y +1,1). Se sustituyen por el **balance de respuestas** |
+>
+> **La regla nueva que reemplaza a la de administración (§12):**
+> ### Primero ahoga. Después, deja las puntas donde tú tienes más respuestas que ellos.
+> Cada jugada vale *(mis fichas que sirven a las puntas) − (fichas que no veo que sirven)*, y entre parecidas, la más pesada. Es la mejor regla de una jugada encontrada: −1,8 puntos contra el Maestro.
 
 ---
 
@@ -296,11 +324,13 @@ Es el único donde **un solo rival fallando ya paga**. Medido:
 
 | Ficha de salida | Caras | P(falla el siguiente) | Ingreso esperado |
 |---|---|---|---|
-| **Cualquier doble** | 1 | **~9%** | **~5,5 pts** |
-| Ficha con blanco o uno | 2 | ~1,1% | ~1,2 pts |
-| Dos palos gordos | 2 | ~0,2% | ~0,2 pts |
+| **Cualquier doble** | 1 | **~9,3%** | **~2,8 pts** |
+| Ficha con blanco o uno | 2 | ~1,0% | ~0,6 pts |
+| Dos palos gordos | 2 | ~0,2% | ~0,1 pts |
 
-> **Sal siempre de doble.** Paga la mitad por fallo, pero el rival falla **nueve veces más seguido**, porque solo tiene que carecer de **un** número en vez de dos. En ingreso esperado el doble es de 4 a 25 veces mejor.
+*(Remedido en la auditoría: los ingresos de la versión anterior estaban duplicados; la proporción entre filas no cambia.)*
+
+> **Sal siempre de doble.** Paga la mitad por fallo, pero el rival falla **nueve veces más seguido**, porque solo tiene que carecer de **un** número en vez de dos. En ingreso esperado el doble es de 4 a 20 veces mejor.
 
 Eso convierte la salida obligatoria de la primera jugada oficial en **un regalo, no un castigo**: te fuerza a la mejor salida posible y de paso te quita tu ficha más pesada.
 

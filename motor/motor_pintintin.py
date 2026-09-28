@@ -30,6 +30,12 @@ META = 150
 TECHO_BONO = 149                             # un bono nunca alcanza 150
 TOPE_JUGADA = 60                             # máximo cobrable en una jugada
 
+# PREGUNTA ABIERTA DEL REGLAMENTO: cuando la jugada deja la mesa trancada, los
+# dos "no va" que siguen ¿le pagan pase al que trancó? Leído literalmente, sí
+# (y pasa en ~84% de las trancas, ~35 pts). Muchas mesas cantan la tranca sin
+# pasar. False = la tranca se declara al instante y no paga pase.
+PASE_EN_TRANCA = True
+
 
 def tiene(t, n):
     return t[0] == n or t[1] == n
@@ -83,6 +89,8 @@ class Mano:
         self.modo = modo                     # "ronda" | "subita"
         self.duo = duo
         self.log = []
+        self.expuso = [[], [], []]           # números que cada quien dejó en la punta que jugó
+        self.jugadas = []                    # (jugador, ficha, lado, izq_antes, der_antes)
 
     # ---- consultas ----
     def viva(self, n):
@@ -133,6 +141,7 @@ class Mano:
 
     def jugar(self, i, t, lado):
         capicua = False
+        ai, ad = self.izq, self.der
         if self.izq is None:
             self.cadena.append((t, t[0], t[1]))
             self.izq, self.der = t[0], t[1]
@@ -148,6 +157,11 @@ class Mano:
             self.izq, self.der = ni, nd
         self.manos[i].discard(t)
         self.mesa.add(t)
+        self.jugadas.append((i, t, lado, ai, ad))
+        if ai is None:
+            self.expuso[i] += [t[0], t[1]] if t[0] != t[1] else [t[0]]
+        else:
+            self.expuso[i].append(self.izq if lado == 'i' else self.der)
         self.jugo[i][t[0]] += 1
         if t[1] != t[0]:
             self.jugo[i][t[1]] += 1
@@ -172,6 +186,8 @@ class Mano:
             salida = len(self.mesa) == 1
             paga = (self.ultimo is not None and self.ultimo != i and valor > 0
                     and (salida or self.fallos >= 2))
+            if paga and not PASE_EN_TRANCA and not any(self.legales(j) for j in range(3)):
+                paga = False
             if paga:
                 quiere = min(valor, max(0, TOPE_JUGADA - self.cobrado))
                 if quiere > 0:
@@ -340,12 +356,39 @@ def nivel5_maestro(st, i, mv):
     return max(mv, key=k)
 
 
+def nivel5b_balance(st, i, mv):
+    """Balance de respuestas: descubierto por búsqueda y por imitación del Sabio.
+
+    Primero ahoga (como todos). Después, cada jugada vale
+        (mis fichas que responden a las puntas) − (fichas que no veo que responden)
+        + 0,3 × peso de la ficha
+    En palabras de mesa: deja las puntas donde tú tienes más respuestas que ellos.
+    Medido: 31,6% contra dos Maestros (control 33,4%), 90.000 rondas en tres
+    juegos de semillas. Ver auditoría §4.11.
+    """
+    riv = [j for j in range(3) if j != i]
+    su = st.sin_ubicar(i)
+
+    def k(m):
+        t, lado = m
+        ni, nd = st.extremos_tras(t, lado)
+        ahogo = 0
+        for j in riv:
+            v = st.vacios[j]
+            ahogo += 2 if (ni in v and nd in v) else (1 if (ni in v or nd in v) else 0)
+        amenaza = sum(1 for x in su if tiene(x, ni) or tiene(x, nd))
+        cob = sum(1 for x in st.manos[i] if x != t and (tiene(x, ni) or tiene(x, nd)))
+        return (10 * ahogo - amenaza + cob + 0.3 * PUNTOS[t], PUNTOS[t])
+    return max(mv, key=k)
+
+
 NIVELES = [
     ("1 Novato   (azar)", nivel1_novato),
     ("2 Casual   (suelta alto)", nivel2_casual),
     ("3 Jugador  (cuenta fallos)", nivel3_jugador),
     ("4 Fogueado (+ predice)", nivel4_fogueado),
     ("5 Maestro  (+ cerco/cebo)", nivel5_maestro),
+    ("5b Balance (respuestas)", nivel5b_balance),
 ]
 
 
@@ -433,6 +476,22 @@ def p_palo_muerto(R, manos_rivales):
 
 # ─────────────────────────── LA RONDA ───────────────────────────
 
+ORDEN_SUBITA = sorted(FICHAS, key=lambda t: (es_doble(t), max(t), min(t)), reverse=True)
+
+
+def salida_subita(h, duo):
+    """Muerte súbita: sale el doble más alto; sin dobles, la ficha más alta.
+
+    "Más alta" = cara mayor y luego menor (6/5, 6/4, 6/3 … 5/4), igual que los
+    artifacts. El reglamento no aclara si es por cara o por puntos (5/4 = 9 > 6/2).
+    """
+    for t in ORDEN_SUBITA:
+        j = next((j for j in duo if t in h.manos[j]), None)
+        if j is not None:
+            h.turno = j
+            return h.jugar(j, t, 'd')
+
+
 def jugar_ronda(politicas, tope_manos=40):
     """Devuelve (perdedor, marcador). Solo pierde el TERCERO."""
     marcador = [0, 0, 0]
@@ -451,15 +510,7 @@ def jugar_ronda(politicas, tope_manos=40):
     # muerte súbita entre los de abajo: una mano, sin puntos, no se repite
     duo = abajo[:2]
     h = Mano(marcador, duo[0], politicas, modo="subita", duo=duo)
-    for v in range(6, 1, -1):
-        for j in duo:
-            if (v, v) in h.manos[j]:
-                h.turno = j
-                h.jugar(j, (v, v), 'd')
-                break
-        else:
-            continue
-        break
+    salida_subita(h, duo)
     _, salvado = h.correr()
     return (duo[1] if salvado == duo[0] else duo[0]), marcador
 
@@ -482,6 +533,8 @@ if __name__ == "__main__":
     rondas = 9000
     if "--rondas" in sys.argv:
         rondas = int(sys.argv[sys.argv.index("--rondas") + 1])
+    if "--semilla" in sys.argv:
+        random.seed(int(sys.argv[sys.argv.index("--semilla") + 1]))
 
     print(f"MOTOR DE PINTINTÍN · {len(FICHAS)} fichas · {TOTAL_PUNTOS} puntos · meta {META}")
     print(f"\nBenchmark: cada política contra dos 'Jugador (cuenta fallos)'")

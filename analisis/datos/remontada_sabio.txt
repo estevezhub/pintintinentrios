@@ -1,0 +1,13 @@
+2b · REFERENCIA — el Sabio (simula la mano y juzga por el marcador) en los mismos escenarios
+
+  temprano · 40 abajo           maestro       59.5%  [57.0 – 62.0]
+  temprano · 40 abajo           sabio96       59.1%  [56.6 – 61.5]
+
+  medio · 40 abajo              maestro       65.1%  [62.6 – 67.4]
+  medio · 40 abajo              sabio96       62.2%  [59.7 – 64.6]
+
+  tarde · 40 abajo, líder 125   maestro       65.3%  [62.8 – 67.6]
+  tarde · 40 abajo, líder 125   sabio96       62.3%  [59.9 – 64.8]
+
+
+(398 s)

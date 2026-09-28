@@ -1,0 +1,41 @@
+15445 decisiones del Sabio grabadas (147 s); ajustando…
+   iter 50  log-verosimilitud media -0.8630
+   iter 100  log-verosimilitud media -0.8619
+   iter 150  log-verosimilitud media -0.8616
+   iter 200  log-verosimilitud media -0.8614
+   iter 250  log-verosimilitud media -0.8613
+   iter 300  log-verosimilitud media -0.8612
+acierto del modelo al predecir al Sabio: 58.0%
+  caras            +0.593
+  amen             -0.581
+  amen_ter         +0.435
+  amen_sig         -0.396
+  doble            +0.391
+  cob              +0.310
+  pierde           +0.256
+  sostener         -0.169
+  ah               +0.129
+  pts*soy_ult      +0.128
+  ah_ter           +0.121
+  ah_ult           +0.114
+  vivas            -0.108
+  ah_sig           +0.099
+  cebo             +0.093
+  pts              +0.092
+  mata             +0.091
+  ah*frozen        -0.083
+  cerco            -0.071
+  cob*frozen       -0.071
+  muertas          -0.050
+  pts*frozen       -0.036
+  cobro2           +0.036
+  ah_lid           -0.032
+  peso_mano        -0.021
+  repite           -0.021
+  sostener*bola    -0.017
+  frag             +0.009
+  cerco*soy_ult    +0.009
+  romper           -0.006
+  doble_N          -0.001
+  tranca           +0.000
+(344 s)

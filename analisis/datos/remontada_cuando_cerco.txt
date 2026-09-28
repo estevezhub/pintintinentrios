@@ -1,0 +1,10 @@
+3 · CUÁNDO — rondas completas desde 0-0-0 contra dos Maestros; activo 'cerco' solo si voy último a U+ del segundo
+
+  umbral   1   32.8%  [32.2 – 33.5]
+  umbral  20   33.1%  [32.4 – 33.8]
+  umbral  40   32.8%  [32.1 – 33.5]
+  umbral  60   33.1%  [32.4 – 33.8]
+  umbral  90   32.9%  [32.2 – 33.6]
+  nunca        32.7%  [32.1 – 33.4]   (Maestro puro, mismas semillas)
+
+(140 s)

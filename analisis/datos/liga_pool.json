@@ -1,0 +1,23 @@
+[
+ "novato",
+ "casual",
+ "jugador",
+ "fogueado",
+ "maestro",
+ "marcador",
+ "hip:Maestro en 3 términos",
+ "hip:cierra al de tu derecha",
+ "hip:guardar las bajas",
+ "hip:soltar las altas primero",
+ "hip:guardar el veto (prioridad)",
+ "hip:mano ancha (prioridad)",
+ "hip:dos caras vivas mientras cobras",
+ "hip:alianza total (ahoga al último)",
+ "rmt:rmt_puro",
+ "rmt:rmt_d",
+ "farol:siempre",
+ "lector",
+ "spec:{\"lin\":{\"ah\":10.509,\"cobro2\":0.687,\"amen\":-1.271,\"amen_sig\":-0.022,\"amen_ter\":-0.113,\"cob\":1.009,\"pierde\":-0.329,\"caras\":0.397,\"pts\":0.349,\"doble\":0.08,\"cebo\":0.418,\"muertas\":0.138,\"frag\":-0.313,\"repite\":0.029,\"mata\":0.224,\"sostener\":0.057,\"romper\":-0.339,\"tranca\":-0.449,\"ah_sig\":-0.199,\"ah_ter\":-0.101,\"ah_ult\":0.202,\"ah_lid\":0.223,\"peso_mano\":-0.139,\"pts*frozen\":0.104,\"cob*frozen\":-0.435,\"ah*frozen\":-0.472,\"cerco*soy_ult\":-0.292,\"pts*soy_ult\":0.09,\"sostener*bola\":-0.171}}",
+ "spec:{\"lin\":{\"ah\":0.205,\"cobro2\":0.487,\"amen\":-0.257,\"amen_sig\":-0.165,\"amen_ter\":0.177,\"cob\":0.262,\"pierde\":0.551,\"caras\":0.447,\"pts\":0.037,\"doble\":1.232,\"cerco\":-0.228,\"cebo\":0.325,\"vivas\":-0.288,\"muertas\":-0.316,\"repite\":-0.075,\"mata\":0.184,\"sostener\":-0.627,\"ah_sig\":0.275,\"ah_ter\":0.284,\"ah_ult\":0.416,\"ah_lid\":-0.085,\"cob*frozen\":-0.09,\"ah*frozen\":-0.288,\"cerco*soy_ult\":0.072,\"pts*soy_ult\":0.048,\"sostener*bola\":-0.36}}",
+ "spec:{\"lin\":{\"ah\":10,\"amen\":-1.0,\"cob\":1.0,\"pts\":0.3}}"
+]

@@ -23,8 +23,12 @@ Este proyecto reconstruyó el reglamento desde la tradición oral, lo midió con
 | `pintintin-reglas.md` | **El reglamento, v1.7.** Reconstruido y cerrado. Base de todo lo demás |
 | `pintintin-estrategia.md` | Estrategia medida: alianzas, cerco, conteo, palos frágiles |
 | `pintintin-god-mode.md` | **El análisis profundo.** 12 partes, todo con porcentajes medidos |
-| **Mesa de Pintintín** (artifact) | Laboratorio: armas cualquier posición y el motor te dice qué paga |
-| **Dojo de Pintintín** (artifact) | Juegas contra 2 bots, con revisión de cada jugada y análisis de mano |
+| `pintintin-auditoria.md` | **Revisión y extensión** (28-sep): pruebas, remediciones con IC, Sabio, salida, riesgo, cómplice, remontada, tácticas de mesa, campaña de 2,8M rondas |
+| `pintintin-bots.md` | Los seis niveles de bot: algoritmo, fuerza, costo, dificultades para un juego |
+| `pintintin-metodologia.md` | Cómo se mide todo, los siete errores cometidos, cómo reproducir cada cifra |
+| `motor/` | Python: motor de referencia, 21 pruebas, laboratorio, Sabio, campaña |
+| `apps/mesa-pintintin.html` | Laboratorio: armas cualquier posición y el motor te dice qué paga |
+| `apps/dojo-pintintin.html` | Juegas contra 2 bots, con revisión de cada jugada y análisis de mano |
 
 ---
 
@@ -44,6 +48,11 @@ El reglamento salió de conversación, pero **la conversación sola no bastó**.
 - Afirmé que convenía salir con blanco o uno. Es al revés: **doble siempre**, paga 4-25× más.
 - Afirmé que el líder congelado en 120 quedaba vulnerable. Queda **96,5% seguro**.
 - El evaluador de jugadas usaba **un solo orden de prioridades** y marcaba como errores jugadas buenas de otro plan. Ver "los tres planes" abajo.
+- *(auditoría)* Se validó un lote de bots **sin medir el control en las mismas semillas**: todos parecían 1,2 puntos mejores de lo que eran. Ahora todo se compara contra el Maestro jugado con las mismas semillas, en tres juegos de semillas.
+- *(auditoría)* Se midió contra **rivales flojos** (dos Jugadores): las diferencias salen infladas. La vara ahora son dos Maestros.
+- *(auditoría)* Una variante pareció mejorar a un bot flojo, pero la mejora venía de otro cambio metido en el mismo brazo. Todo experimento lleva ahora un **control con el mismo cambio sin el término probado**.
+
+Los siete, con su antídoto, en `pintintin-metodologia.md` §6.
 
 ---
 
@@ -84,18 +93,22 @@ pase(i)       = 30 × carasVivas, a quien jugó de último
 
 Cada nivel **añade una herramienta** a la anterior. El orden sale de lo medido, no de la intuición:
 
-| Nivel | Añade | Pierde |
-|---|---|---|
-| 1 Novato | azar | 33% |
-| 2 Casual | suelta alto sin estrecharse | ~26% |
-| 3 Jugador | **cuenta los fallos demostrados** | **19,4%** |
-| 4 Fogueado | **predice**: cuántas fichas sin ubicar sirven a las puntas | — |
-| 5 Maestro | **cerco, cebo, y anti-cebo** (evita el palo que el rival repite) | **27,3%** contra dos del nivel 3 |
+| Nivel | Añade | Pierde vs 2 Maestros | vs 2 Jugadores |
+|---|---|---|---|
+| 1 Novato | azar | 53,4% | 49,2% |
+| 2 Casual | suelta alto sin estrecharse | 42,1% | 38,7% |
+| 3 Jugador | **cuenta los fallos demostrados** | 37,8% | 32,9% |
+| 4 Fogueado | **cierra la mesa**: pocas fichas sin ubicar sirven a las puntas | 33,7% | 28,0% |
+| 5 Maestro | **cerco y cebo** (el anti-cebo se probó y empeoraba: no está en el código) | 33,3% | 27,0% |
+| 5b Balance | **balance de respuestas**: ahoga; después, puntas donde él responde más que ellos | **31,6%** | 25,7% |
+| 6 Sabio | **simula el resto de la mano** sobre repartos compatibles con lo visto, y juzga el marcador con una tabla de P(quedar último) | **28,3%** (192 repartos) | 21,5% (96) |
+
+Detalle completo en `pintintin-bots.md`.
 
 Función de decisión del maestro, en orden lexicográfico:
 
 ```
-cobro → −amenaza → cerco → cebo → −ajeno → cobertura → peso
+cobro → −amenaza → cerco → cebo → cobertura → peso
 ```
 
 Probé cuatro ordenamientos distintos antes de fijar este. **33,3% es el punto neutro** (solo pierde uno de tres), así que menos es mejor.
@@ -143,15 +156,20 @@ Reparte por muestreo las fichas sin ubicar entre las dos manos y la pila, respet
 | | |
 |---|---|
 | **Solo pierde el tercero** | Tu puntuación no importa; importa tu distancia sobre el último |
-| **Ir último tras 3 manos** | 66% de perder. La trampa se cierra temprano |
-| **Cruzar 120 primero** | 96,5% de no perder. Es ganar |
+| **Ir último tras 3 manos** | 71% de perder (remedido). La trampa se cierra temprano |
+| **La distancia al segundo** | Último a <20: ~50%. A 60+: ~80%. Pesa más que el puesto |
+| **La primera mano** | Ganarla → pierdes 14%; no anotar → 48% |
+| **Salir** | El que sale gana la mano el 47%; los otros, ~26% |
+| **Cruzar 120 primero** | 96,8% de no perder. Es ganar |
 | **Contar los fallos** | −14 puntos. Cuesta **dos frases por rival** |
 | **Techo del conteo** | 13,9% (ver las manos). Queda 5,6 de margen sobre contar |
 | **La alianza** | Hunde al descuidado al 47,1%; contra quien cuenta, 34,0% |
 | **Los dobles** | ~5 puntos menos de ganar la mano, cada uno |
 | **Anchura vs concentración** | 7 caras gana más que 4 de un palo, y llega 44% de las veces |
 | **La pila al final** | Con 2 fichas por cabeza, la mitad de lo que falta está fuera |
-| **Nunca pagues con tu juego** | Toda idea de "sacrifica ahora por posición después" salió refutada |
+| **Nunca pagues con tu juego** | Toda idea de "sacrifica ahora por posición después" salió refutada — también el cómplice, el farol y los planes de remontada |
+| **Balance de respuestas** | La mejor regla de una jugada: ahoga; después, puntas donde tú respondes más que ellos (−1,8 sobre el Maestro) |
+| **Mirar hacia adelante** | El Sabio le saca 3–5 puntos al Maestro, y escala con el cálculo |
 
 ---
 
@@ -186,7 +204,7 @@ Lo que falta por investigar:
 ### Lo que ya está resuelto
 
 - **Reglas completas y probadas** — el motor JS del Dojo es una implementación de referencia.
-- **Bots de 5 niveles**, el más alto medido como superior a un jugador que cuenta.
+- **Bots de 7 niveles** (1–5, 5b Balance y 6 Sabio), el más alto le saca 5 puntos al Maestro.
 - **Analizador de jugadas** con los tres planes y la separación decisión/resultado.
 - **Motor de inferencia** para que los bots razonen sobre lo que no ven.
 
@@ -217,9 +235,12 @@ Lo que falta por investigar:
 
 **Empieza por aquí:**
 
-1. Lee `pintintin-reglas.md` entero. Es corto y todo lo demás depende de él.
-2. Del God Mode, lee las Partes 1 (estructura), 8 (evaluar jugadas) y 11 (método de conteo). El resto es consulta.
-3. Abre el Dojo y juega tres manos. Se entiende más rápido jugando que leyendo.
+1. Lee `pintintin-reglas.md` entero, incluidas las preguntas abiertas (§12). Es corto y todo lo demás depende de él.
+2. Del God Mode, lee las Partes 1 (estructura), 8 (evaluar jugadas), 11 (método de conteo) y 13 (qué cambió). El resto es consulta.
+3. Lee `pintintin-metodologia.md` antes de medir nada: ahí están los siete errores ya cometidos.
+4. Lee el resumen (§0) y las propuestas (§5) de `pintintin-auditoria.md`.
+5. Si vas a programar el juego: `pintintin-bots.md`.
+6. Abre el Dojo y juega tres manos. Se entiende más rápido jugando que leyendo.
 
 **Cuidados:**
 
@@ -227,3 +248,5 @@ Lo que falta por investigar:
 - **Distingue medido de razonado** en todo lo que escribas. El God Mode lo hace explícito y conviene mantenerlo.
 - **El reglamento tiene una sola fuente.** Antes de tratarlo como canónico, consíguete la segunda.
 - **No optimices el bot para puntos.** Solo pierde el tercero.
+- **Mide contra dos Maestros y contra un control con las mismas semillas.** Replica en tres juegos de semillas antes de creer una mejora.
+- **Corre `python3 -m unittest motor/test_motor.py`** después de tocar el motor.

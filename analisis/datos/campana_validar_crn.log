@@ -1,0 +1,18 @@
+── semillas 3
+   CONTROL maestro        33.0% [32.5 – 33.6]
+   balance (motor)        31.3% [30.8 – 31.9]
+   balance (spec)         31.3% [30.8 – 31.9]
+   optimizador (mejor)    31.2% [30.7 – 31.7]
+   imitador del Sabio     31.6% [31.1 – 32.1]
+── semillas 11
+   CONTROL maestro        33.7% [33.2 – 34.2]
+   balance (motor)        31.8% [31.3 – 32.4]
+   balance (spec)         31.8% [31.3 – 32.4]
+   optimizador (mejor)    31.7% [31.2 – 32.2]
+   imitador del Sabio     31.5% [30.9 – 32.0]
+── semillas 29
+   CONTROL maestro        33.4% [32.9 – 33.9]
+   balance (motor)        31.7% [31.1 – 32.2]
+   balance (spec)         31.7% [31.1 – 32.2]
+   optimizador (mejor)    31.3% [30.7 – 31.8]
+   imitador del Sabio     31.8% [31.3 – 32.3]

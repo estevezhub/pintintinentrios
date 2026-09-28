@@ -1,0 +1,20 @@
+1 · EL RELOJ — jugando normal (Maestro) desde cada marcador; yo voy último
+
+  escenario                                       pierdo  manos que       la ronda cierra en ≤k manos  salgo del
+                                                             quedan     k=1     k=2     k=3     k=4      último
+  temprano · 40 abajo               59.8%  [59.0 – 60.7]       2.84     15%     45%     72%     89%         48%
+  medio · 20 abajo                  55.2%  [54.3 – 56.1]       2.02     36%     73%     91%     98%         51%
+  medio · 40 abajo                  65.0%  [64.1 – 65.8]       2.13     33%     69%     89%     97%         41%
+  medio · 60 abajo                  70.9%  [70.1 – 71.7]       2.22     32%     65%     86%     96%         33%
+  tarde · 40 abajo, líder 125       66.0%  [65.2 – 66.9]       1.75     49%     82%     95%     99%         37%
+  tarde · 70 abajo, líder 125       73.3%  [72.5 – 74.0]       1.89     44%     77%     93%     98%         30%
+
+  Supervivencia: si sigo último tras cada mano, ¿cuánto pierdo?  (escenario 'medio · 40 abajo')
+    sigo último tras 1 mano(s) y la ronda sigue: pierdo  67.7%  [66.5 – 68.9]  (n=5702)
+    ya salí del último en ≤1 mano(s):              pierdo  16.1%  [14.8 – 17.5]  (n=2811)
+    sigo último tras 2 mano(s) y la ronda sigue: pierdo  66.5%  [64.3 – 68.6]  (n=1878)
+    ya salí del último en ≤2 mano(s):              pierdo  15.0%  [13.9 – 16.1]  (n=4192)
+    sigo último tras 3 mano(s) y la ronda sigue: pierdo  63.9%  [59.7 – 67.9]  (n=523)
+    ya salí del último en ≤3 mano(s):              pierdo  14.3%  [13.3 – 15.3]  (n=4670)
+
+(66 s)

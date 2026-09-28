@@ -1,0 +1,8 @@
+Cada política contra dos 'maestro' · 12000 rondas · IC 95%
+
+  novato              55.4%  [54.5 – 56.3]
+  jugador             39.1%  [38.3 – 40.0]
+  fogueado            34.3%  [33.4 – 35.1]
+  lex:ahogo,-amenaza,pts  33.7%  [32.8 – 34.5]
+
+(70 s)

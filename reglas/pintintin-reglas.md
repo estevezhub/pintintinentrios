@@ -2,7 +2,7 @@
 
 **Dominó de 3 jugadores · República Dominicana**
 
-Versión 1.7 — 28 de septiembre de 2026 · **Reglamento completo**
+Versión 1.7 — 28 de septiembre de 2026 · **Reglamento completo** · con preguntas abiertas en §12
 
 ---
 
@@ -274,7 +274,9 @@ De ahí la decisión de la salida:
 
 - **Salir de doble** produce muchos más pases — solo 6 fichas responden — pero cada uno paga **30**.
 - **Salir de dos palos** paga **60** por rival, pero es bastante más difícil que alguien falle.
-- **Salir con blanco o con uno** (`0/6`, `1/5`) es el mejor compromiso: paga 60 y deja solo 10 fichas capaces de responder, la mitad que un `6/4`.
+- **Salir con blanco o con uno** (`0/6`, `1/5`) parece un compromiso — paga 60 y responden solo 10 fichas — pero **medido no lo es**: el siguiente falla el 1,0% de las veces contra el 9,3% del doble.
+
+> **Sal de doble**, y mejor si traes otras fichas de ese palo. Medido con simulación: el doble es la mejor salida de la mano el 54% de las veces; una ficha que no es doble, solo el 4%. La peor salida es la que te quita una cara de la mano. *(Detalle en `analisis/pintintin-auditoria.md`.)*
 
 En todos los casos la jugada topa en **60**. Y recuerda que esta ventaja es solo de la salida: en cuanto la mano arranca, hace falta que fallen los dos.
 
@@ -324,6 +326,21 @@ En todos los casos la jugada topa en **60**. Y recuerda que esta ventaja es solo
 **Cierre:** alguien llega a 150 → termina la ronda → **el tercero pierde**.
 **Pasar con ficha:** el infractor es el perdedor y el marcador vuelve a 0 – 0 – 0.
 **Muerte súbita:** si los otros dos quedan empatados o en 0, una mano sin puntos para decidir cuál de ellos pierde. No se repite nunca: si la tranca empata, gana el que trancó.
+
+---
+
+## 12. Preguntas abiertas
+
+Implementar el reglamento en código obligó a decidir cuatro puntos que el testimonio oral no aclara. Están implementados como se indica, pero **hay que confirmarlos con otras mesas**:
+
+| # | Pregunta | Cómo lo decide el motor | Por qué importa |
+|---|---|---|---|
+| 1 | **¿La tranca paga pase?** Cuando tu jugada deja la mesa cerrada, los otros dos dicen "no va": ¿cobras el pase antes de contar la tranca? | Sí, leído literalmente (interruptor `PASE_EN_TRANCA`) | Pasa en el **84%** de las trancas, por ~35 pts. Si la tranca se canta al instante, ese pase no existe |
+| 2 | **¿Una cara cuyas fichas restantes están todas en la pila está viva?** | Sí: solo muere cuando *todas* sus fichas están en la mesa | Nadie puede jugarla, pero sigue pagando pase |
+| 3 | **"La ficha más alta" en la muerte súbita sin dobles**: ¿por cara (`6/2` antes que `5/4`) o por puntos (`5/4` = 9 antes que `6/2` = 8)? | Por cara, como las apps | Decide quién sale |
+| 4 | **Capicúa con las dos puntas iguales**: si las puntas son 5 y 5 y cierras con `5/x`, ¿es capicúa? | No | +30 |
+
+Medido (`analisis/pintintin-auditoria.md` §6): la escalera de bots no cambia con la regla 1, pero el marcador sí.
 
 ---
 

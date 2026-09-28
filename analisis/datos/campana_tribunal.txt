@@ -1,0 +1,49 @@
+TRIBUNAL · 44 hipótesis × 18000 rondas contra dos Maestros · 1573 s
+
+     Δ  veredicto  hipótesis                                                pierde  fuente
+  -0.9  neutra     cierra al de tu derecha                 32.7% [32.0 – 33.4]  nueva
+  -0.6  neutra     cerco antes que cerrar                  33.0% [32.4 – 33.7]  God Mode 12.5
+  -0.5  neutra     repite la cara (desempate)              33.1% [32.4 – 33.8]  Estrategia §3b / mesa
+  -0.5  neutra     quedarse con menos dobles               33.1% [32.5 – 33.8]  nueva
+  -0.5  neutra     soltar dobles (desempate)               33.1% [32.5 – 33.8]  God Mode 2.3
+  -0.3  neutra     siempre poder responder                 33.3% [32.6 – 34.0]  Estrategia §12
+  -0.3  neutra     frena al líder                          33.3% [32.6 – 34.0]  Estrategia §2
+  -0.2  neutra     trabaja al de tu derecha                33.4% [32.8 – 34.1]  Estrategia §3b
+  -0.2  neutra     salida: doble con más compañeras        33.4% [32.8 – 34.1]  auditoría §4.4
+  -0.1  neutra     aligerar la mano                        33.5% [32.8 – 34.2]  nueva
+  -0.1  neutra     alianza barata (ahoga al último)        33.5% [32.8 – 34.2]  Estrategia §3
+  -0.1  neutra     objetivo sí, aliado no                  33.5% [32.8 – 34.2]  Estrategia §3
+  -0.1  neutra     cobro cierto primero                    33.5% [32.9 – 34.2]  God Mode 3.3
+  -0.0  neutra     mata la cara del rival (desempate)      33.6% [32.9 – 34.3]  mesa
+  -0.0  neutra     cebo antes que cerco                    33.6% [32.9 – 34.3]  God Mode 4.2
+  +0.0  —          control: Maestro                        33.6% [32.9 – 34.3]  —
+  +0.0  neutra     en 120+: igual que siempre              33.6% [32.9 – 34.3]  auditoría §4.5
+  +0.0  neutra     trabaja al de tu izquierda              33.6% [32.9 – 34.3]  Estrategia §3b
+  +0.1  neutra     salida: doble solo si tiene compañera   33.7% [33.0 – 34.3]  God Mode 12.7
+  +0.1  neutra     bola de nieve: no muevas la mesa        33.7% [33.0 – 34.4]  Estrategia §6d
+  +0.1  neutra     no matar palos                          33.7% [33.0 – 34.4]  Reglamento §9.3
+  +0.1  neutra     tranca segura con menos fichas          33.7% [33.0 – 34.4]  mesa
+  +0.1  neutra     alianza total (ahoga al último)         33.7% [33.1 – 34.4]  Estrategia §3
+  +0.2  neutra     romper la racha del otro                33.8% [33.1 – 34.5]  Estrategia §6d
+  +0.2  neutra     en 120+: cobertura y peso               33.8% [33.1 – 34.5]  Estrategia §9 / Reglamento §9.5
+  +0.2  neutra     estrangular a una cara                  33.8% [33.1 – 34.5]  Estrategia §6
+  +0.3  neutra     mano ancha (desempate)                  33.9% [33.2 – 34.6]  Estrategia §12
+  +0.3  neutra     matar palos (dejar puntas muertas)      33.9% [33.2 – 34.6]  Reglamento §9.3
+  +0.3  neutra     yendo último: cerco primero             33.9% [33.2 – 34.6]  auditoría §4.9
+  +0.3  neutra     cierra al de tu izquierda               33.9% [33.2 – 34.6]  nueva
+  +0.3  neutra     en 120+: suelta peso                    33.9% [33.2 – 34.6]  Reglamento §9.5
+  +0.4  neutra     Maestro en 3 términos                   34.0% [33.3 – 34.6]  auditoría §4.1
+  +0.5  neutra     guardar el veto (desempate)             34.1% [33.4 – 34.8]  Estrategia §6e
+  +1.0  EMPEORA ✘  soltar dobles (prioridad)               34.6% [33.9 – 35.3]  God Mode 2.3
+  +1.1  EMPEORA ✘  mano ancha (prioridad)                  34.7% [34.0 – 35.4]  Estrategia §12
+  +1.2  EMPEORA ✘  yendo último: suelta peso               34.8% [34.1 – 35.5]  auditoría §4.9
+  +1.4  EMPEORA ✘  soltar dobles salvo el del cerco        35.0% [34.4 – 35.8]  God Mode 4.4
+  +3.1  EMPEORA ✘  guardar el veto (prioridad)             36.7% [36.0 – 37.4]  Estrategia §6e
+  +4.2  EMPEORA ✘  sin 'cerrar la mesa'                    37.8% [37.1 – 38.5]  God Mode 3.3
+  +5.4  EMPEORA ✘  dos caras vivas mientras cobras         39.0% [38.3 – 39.7]  Reglamento §9.2
+  +8.5  EMPEORA ✘  soltar las altas primero                42.1% [41.4 – 42.8]  God Mode 3.1
+  +8.5  EMPEORA ✘  puntas en blanco/uno                    42.1% [41.4 – 42.9]  Reglamento §9.3
+ +11.9  EMPEORA ✘  peso antes que ahogo                    45.5% [44.8 – 46.3]  Reglamento §9.1
+ +17.5  EMPEORA ✘  guardar las bajas                       51.1% [50.3 – 51.8]  God Mode 3.1
+
+(±1.0 puntos = umbral de significancia al 95% para Δ)

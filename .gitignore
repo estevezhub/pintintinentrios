@@ -1,0 +1,10 @@
+# macOS / Python
+.DS_Store
+__pycache__/
+*.pyc
+
+# Plan del juego: vive solo en local, no en el repositorio
+plan-juego/
+
+# Scripts temporales
+*.tmp

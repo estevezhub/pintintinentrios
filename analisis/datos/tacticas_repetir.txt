@@ -1,0 +1,20 @@
+C · ¿QUÉ PASA DESPUÉS DE REPETIR LA CARA?  (yo = asiento 0; el siguiente = asiento 1; el tercero = asiento 2)
+
+  Yo juego 'maestro'  ·  298236 jugadas en la mano  ·  tranca segura disponible en 1.08% de mis turnos
+    tipo de jugada                                     %  pasa el sig.  pasa el 3º   cobro  sig. pasa y el 3º salva
+    no repito                                      86.7%         17.2%       25.4%    9.0%                    60.2%
+    repito y aún tengo esa cara                     9.2%         40.9%       26.8%   17.3%                    54.4%
+    repito y YA NO tengo esa cara                   4.1%         53.0%       38.8%   29.1%                    43.9%
+      … y el tercero guarda la última               1.3%         66.2%        0.0%    9.3%                   100.0%
+      … y el tercero no la tiene                    2.9%         47.1%       56.3%   37.8%                     8.7%
+
+  Yo juego 'rmt:repite'  ·  296407 jugadas en la mano  ·  tranca segura disponible en 1.01% de mis turnos
+    tipo de jugada                                     %  pasa el sig.  pasa el 3º   cobro  sig. pasa y el 3º salva
+    no repito                                      81.7%         16.2%       25.1%    8.8%                    60.1%
+    repito y aún tengo esa cara                    12.0%         35.5%       23.9%   13.7%                    58.7%
+    repito y YA NO tengo esa cara                   6.3%         43.2%       31.6%   21.5%                    51.0%
+      … y el tercero guarda la última               2.0%         60.9%        0.0%    5.5%                   100.0%
+      … y el tercero no la tiene                    4.3%         34.7%       47.0%   29.0%                     9.8%
+
+
+(72 s)
