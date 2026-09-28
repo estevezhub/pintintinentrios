@@ -2,7 +2,7 @@
 
 **Dominó de 3 jugadores · República Dominicana**
 
-Versión 1.8 — 28 de septiembre de 2026 · **Reglamento completo** · dos preguntas resueltas y dos abiertas en §12
+Versión 1.9 — 28 de septiembre de 2026 · **Reglamento completo** · tres preguntas resueltas y dos abiertas en §12
 
 ---
 
@@ -88,7 +88,10 @@ Los pases los puede cobrar **más de un jugador en la misma mano**. El premio de
 
 ### 5.1 Pases corridos — "los plus"
 
-El pase vale **30 por cada cara viva** — 30 con una cara, 60 con dos. Pero **quién tiene que fallar cambia según el momento**:
+**Cuánto vale el pase y quién tiene que fallar cambian según el momento**:
+
+- **En la salida:** 30 **por cada cara viva** — 30 con una cara, 60 con dos — y paga **cada** rival que falla.
+- **Durante la mano:** **30**, haya una cara o dos, y solo si fallan **los dos**. *(v1.9)*
 
 > ## En la salida paga cada rival que falla.
 > ## Durante la mano solo se cobra si fallan los dos.
@@ -96,9 +99,9 @@ El pase vale **30 por cada cara viva** — 30 con una cara, 60 con dos. Pero **q
 | Momento | Quién falla | Cobra |
 |---|---|---|
 | **Salida** | el siguiente | **30 × caras** |
-| **Salida** | el siguiente y también el tercero | **30 × caras** otra vez |
+| **Salida** | el siguiente y también el tercero | **30 × caras** otra vez (tope 60) |
 | **Durante la mano** | solo uno — el otro sí juega | **nada** |
-| **Durante la mano** | los dos | **30 × caras**, una vez |
+| **Durante la mano** | los dos | **30**, una vez (aunque haya 2 caras) |
 
 **Ningún cobro pasa de 60.** Ese es el tope de una jugada, en la salida y en la mano.
 
@@ -127,7 +130,7 @@ Una **cara** es un número que hay que igualar para poder jugar. No son las dos 
 | **Salida** `6/4`, ambas vivas. El siguiente no va | 2 | uno | **60** |
 | **En la mano**. Uno no va, el otro sí juega | 1 o 2 | uno | **0** |
 | **En la mano**, extremo blanco muerto + tres vivo. No van los dos | 1 | los dos | **30** |
-| **En la mano**, dos caras vivas. No van los dos | 2 | los dos | **60** |
+| **En la mano**, dos caras vivas. No van los dos | 2 | los dos | **30** *(v1.9: los 60 por dos caras son solo de la salida)* |
 
 > **Ejemplo de cara muerta.** Solo existen 5 blancos. Si los 5 ya están jugados y un extremo muestra blanco, ese lado está muerto: nadie podrá jugar ahí nunca más. Si el otro extremo es un tres vivo, la mesa es de **1 cara**.
 >
@@ -135,11 +138,11 @@ Una **cara** es un número que hay que igualar para poder jugar. No son las dos 
 >
 > Juegas un tres, no van los dos → **+30**. Juegas después el `3/3` y tampoco van → **+30 más**.
 
-El palo muerto **abarata el pase a la mitad**.
+En la salida, el palo muerto **abarata el pase a la mitad**. En la mano el pase es 30 de todos modos; solo deja de pagar si **las dos** puntas están muertas.
 
 #### El tope de una jugada: 60
 
-**Ninguna jugada produce más de 60.** En la salida, porque dos caras ya pagan 60 al primero que falla y ahí se acaba; en la mano, porque los dos fallando pagan una sola vez.
+**Ninguna jugada produce más de 60.** En la salida, porque dos caras ya pagan 60 al primero que falla y ahí se acaba; en la mano, porque el pase es 30 y los dos fallando pagan una sola vez.
 
 ### 5.2 Dominada
 
@@ -245,17 +248,17 @@ Cuando alguien llega a 150 y **los otros dos quedan empatados entre sí o los do
 | Pase en la salida, 2 caras | 60 |
 | Pase en la mano, un solo rival falla | **0** |
 | Pase en la mano, fallan los dos, 1 cara | 30 |
-| Pase en la mano, fallan los dos, 2 caras | 60 |
+| Pase en la mano, fallan los dos, 2 caras | **30** *(v1.9)* |
 | Máximo de una jugada | **60** |
 
-**El pintintín se corre por pases, no por dominadas.** Un pase de 60 es más de un tercio del camino a 150, se pueden cobrar varios en una misma mano, y una dominada típica solo ronda los 40-50.
+**Los pases pesan, pero menos de lo que parece.** Un pase de 60 (solo en la salida) es más de un tercio del camino a 150 y se pueden cobrar varios en una misma mano; pero con el reglamento v1.9 el pase medio es de unos 8 puntos por jugador y mano, contra 11 del cierre (dominada o tranca). Ver `analisis/pintintin-auditoria.md` §4.12.
 
 Pero cobrar durante la mano es **caro**: hay que dejar fuera a los dos a la vez. En la salida basta con uno. De ahí la regla de oro del juego: **la salida es donde se cobra barato, y la salida se gana ganando la mano anterior.**
 
 De ahí sale la lógica central del juego:
 
 1. **Ahogar palos vale más que descargar fichas altas.** Si la mesa queda con dos caras que tus rivales no tienen, cada jugada tuya es dinero.
-2. **Mantén las dos caras vivas mientras cobras.** Un palo muerto te parte el cobro a la mitad: 30 en vez de 60 por rival.
+2. ~~Mantén las dos caras vivas mientras cobras.~~ *(Desde v1.9 solo aplica a la salida: en la mano el pase es 30 con una o dos caras. Además, medido como prioridad, empeoraba el juego: auditoría §4.11.)*
 3. **Los blancos y los unos son cuchillo de dos filos.** Con solo 5 fichas y sin doble son los únicos palos agotables, así que sirven para matar un lado — pero si tú dejas el blanco muerto en un extremo, también te abaratas tus propios pases.
 4. **Cuenta los frágiles.** Saber cuántos blancos y unos han salido te dice cuándo una cara está por morir, tanto para provocarlo como para evitarlo.
 5. **A partir de 120, cambia el juego.** Los pases ya no te sirven: tienes que dominar o trancar bajo. Ahí conviene guardar fichas bajas en vez de cazar pases.
@@ -320,7 +323,7 @@ En todos los casos la jugada topa en **60**. Y recuerda que esta ventaja es solo
 | Salida · un rival no va, 1 cara | 30 |
 | Salida · un rival no va, 2 caras | 60 |
 | En la mano · falla uno solo | 0 |
-| En la mano · fallan los dos | 30 × caras |
+| En la mano · fallan los dos | 30 (aunque haya 2 caras) |
 | Máximo de una jugada | 60 |
 | Dominar | Suma de las fichas de los otros dos |
 | Capicúa | Esa suma **+ 30** |
@@ -339,16 +342,17 @@ En todos los casos la jugada topa en **60**. Y recuerda que esta ventaja es solo
 
 Implementar el reglamento en código obligó a decidir cuatro puntos que el testimonio oral no aclaraba.
 
-### Resueltas (v1.8, 28-sep-2026, por el informante)
+### Resueltas (v1.8 y v1.9, 28-sep-2026, por el informante)
 
 | # | Pregunta | Respuesta | Qué cambia |
 |---|---|---|---|
 | 1 | **¿La tranca paga pase?** Cuando tu jugada deja la mesa cerrada y los otros dicen "no va", ¿cobras el pase? | **No.** La tranca se canta al instante | La lectura literal anterior pagaba en el 84% de las trancas (~35 pts) |
 | 2 | **¿Una cara cuyas fichas restantes están todas en la pila está viva?** | **No: está muerta.** Nadie la puede jugar | Los pases valen menos: el pase medio por mano baja de 15 a 8 pts |
+| 3 | **Durante la mano, si fallan los dos con 2 caras vivas, ¿60?** | **No: 30.** Los 60 por dos caras son solo de la salida *(v1.9)* | Poco: el pase medio por mano baja de 8,2 a 7,8 pts |
 
 Con la regla 2, la 1 sale casi sola: en una tranca nadie puede jugar las puntas, así que esas caras están muertas y el pase valdría 0 de todos modos.
 
-**Aclaración (confirmada por el informante):** la regla 2 se aplica aunque en ese momento nadie pueda saberlo. Si fallan los dos y una punta solo está muerta porque lo que falta de ese número quedó en la pila, **se cobra como cara muerta** (30 en vez de 60), aunque el monto del cobro deje ver que esas fichas están en la pila.
+**Aclaración (confirmada por el informante):** la regla 2 se aplica aunque en ese momento nadie pueda saberlo. Si fallan los dos y una punta solo está muerta porque lo que falta de ese número quedó en la pila, **se cobra como cara muerta**, aunque el monto del cobro deje ver que esas fichas están en la pila. Desde v1.9 esto solo cambia el monto en la **salida** (30 en vez de 60): en la mano el pase es 30 igual.
 
 ### Abiertas
 

@@ -44,6 +44,12 @@ TOPE_JUGADA = 60                             # máximo cobrable en una jugada
 PASE_EN_TRANCA = False
 CARA_EN_PILA_VIVA = False
 
+# PASE_MANO_POR_CARA · Reglamento v1.9 (informante, 28-sep-2026): durante la
+#   mano, fuera de la salida, cuando fallan los dos se cobran 30 aunque haya
+#   2 caras vivas. Los 60 por dos caras solo existen en la salida.
+#   True = lectura anterior (30 por cada cara viva también en la mano).
+PASE_MANO_POR_CARA = False
+
 
 def tiene(t, n):
     return t[0] == n or t[1] == n
@@ -193,8 +199,9 @@ class Mano:
 
         if self.modo != "subita":
             nv = len(self.caras_vivas())
-            valor = 30 * nv
             salida = len(self.mesa) == 1
+            # salida: 30 por cara viva (tope 60) · en la mano: 30 fijo (v1.9)
+            valor = 30 * nv if (salida or PASE_MANO_POR_CARA) else (30 if nv else 0)
             paga = (self.ultimo is not None and self.ultimo != i and valor > 0
                     and (salida or self.fallos >= 2))
             if paga and not PASE_EN_TRANCA and not any(self.legales(j) for j in range(3)):

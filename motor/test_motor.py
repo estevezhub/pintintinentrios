@@ -83,10 +83,20 @@ class PaseEnLaMano(unittest.TestCase):
         h.no_va(1); h.no_va(2)
         self.assertEqual(h.marcador[0], 30)
 
-    def test_fallan_los_dos_dos_caras(self):
+    def test_fallan_los_dos_dos_caras_paga_30(self):
+        # v1.9: en la mano se cobran 30 aunque haya 2 caras vivas
         h = self.mesa_media(0, 6)            # blancos vivos (J1 tiene el 0-2)
         h.no_va(1); h.no_va(2)
-        self.assertEqual(h.marcador[0], 60)
+        self.assertEqual(h.marcador[0], 30)
+
+    def test_lectura_anterior_dos_caras_pagaba_60(self):
+        M.PASE_MANO_POR_CARA = True
+        try:
+            h = self.mesa_media(0, 6)
+            h.no_va(1); h.no_va(2)
+            self.assertEqual(h.marcador[0], 60)
+        finally:
+            M.PASE_MANO_POR_CARA = False
 
     def test_cara_muerta_no_cuenta(self):
         manos = [
@@ -199,7 +209,7 @@ class ReglasResueltas(unittest.TestCase):
         self.assertEqual(r[0], 'tra')
 
     def test_lectura_anterior_si_pagaba(self):
-        M.PASE_EN_TRANCA, M.CARA_EN_PILA_VIVA = True, True
+        M.PASE_EN_TRANCA, M.CARA_EN_PILA_VIVA, M.PASE_MANO_POR_CARA = True, True, True
         try:
             h = armar([[(2, 3)], [(4, 4)], [(5, 5)]],
                       mesa=[(0, 2), (0, 3), (0, 4), (0, 5), (1, 2), (1, 3), (1, 4)],
@@ -207,7 +217,29 @@ class ReglasResueltas(unittest.TestCase):
             h.no_va(1); h.no_va(2)
             self.assertEqual(h.marcador[0], 60)          # 0-6, 1-5 y 1-6 en la pila → caras "vivas"
         finally:
-            M.PASE_EN_TRANCA, M.CARA_EN_PILA_VIVA = False, False
+            M.PASE_EN_TRANCA, M.CARA_EN_PILA_VIVA, M.PASE_MANO_POR_CARA = False, False, False
+
+
+class EjemploDelInformante(unittest.TestCase):
+    """Partida real reportada: en la mano, fallan los dos con 2 caras → cobra 30, no 60."""
+
+    def test_izquierda_cobra_30(self):
+        k = lambda c: tuple(sorted(int(x) for x in c.split("-")))
+        manos = [["0-2", "0-5", "0-6", "3-3", "3-6", "4-4", "6-6"],
+                 ["0-3", "1-2", "2-2", "2-4", "2-5", "4-5", "5-5"],
+                 ["0-4", "1-3", "1-4", "2-3", "3-4", "3-5", "4-6"]]
+        h = armar([[k(c) for c in m] for m in manos], marcador=(50, 46, 38), turno=2)
+        acciones = [(2, "3-4", "d"), (0, "4-4", "d"), (1, "0-3", "i"), (2, "0-4", "i"), (0, None, None),
+                    (1, "2-4", "i"), (2, "2-3", "i"), (0, "3-3", "i"), (1, "4-5", "d"), (2, "3-5", "d"),
+                    (0, "3-6", "i"), (1, None, None), (2, "4-6", "i"), (0, None, None), (1, None, None)]
+        for j, t, lado in acciones:
+            self.assertEqual(h.turno, j)
+            if t is None:
+                h.no_va(j)
+            else:
+                h.jugar(j, k(t), lado)
+        self.assertEqual((h.izq, h.der), (4, 3))
+        self.assertEqual(h.marcador, [50, 46, 68])       # Izquierda +30
 
 
 class MuerteSubita(unittest.TestCase):

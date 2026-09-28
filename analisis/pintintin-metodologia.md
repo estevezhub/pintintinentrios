@@ -134,13 +134,13 @@ Y dos trampas de lectura que no llegaron a publicarse:
 
 ## 6b. Qué versión del reglamento
 
-Las mediciones hasta la sección 4.11 de la auditoría se hicieron con la **lectura anterior** de dos reglas (tranca con pase, cara viva si lo que falta está en la pila). El reglamento **v1.8** las resolvió al revés, y el motor usa v1.8 por defecto. Para reproducir las cifras anteriores:
+Las mediciones hasta la sección 4.11 de la auditoría se hicieron con la **lectura anterior** de dos reglas (tranca con pase, cara viva si lo que falta está en la pila). El reglamento **v1.8** las resolvió al revés, y **v1.9** fijó además que en la mano el pase es 30 aunque haya dos caras. El motor usa v1.9 por defecto. Para reproducir las cifras anteriores:
 
 ```bash
-PINTINTIN_PASE_EN_TRANCA=1 PINTINTIN_CARA_EN_PILA_VIVA=1 python3 motor/laboratorio.py bench balance --rival maestro
+PINTINTIN_PASE_EN_TRANCA=1 PINTINTIN_CARA_EN_PILA_VIVA=1 PINTINTIN_PASE_MANO_POR_CARA=1 python3 motor/laboratorio.py bench balance --rival maestro
 ```
 
-(o poner `PASE_EN_TRANCA = True` y `CARA_EN_PILA_VIVA = True` en `motor_pintintin.py` para los scripts que no leen el entorno). **Toda medición nueva se hace con v1.8.**
+(o poner `PASE_EN_TRANCA`, `CARA_EN_PILA_VIVA` y `PASE_MANO_POR_CARA` en `True` en `motor_pintintin.py` para los scripts que no leen el entorno). **Toda medición nueva se hace con el reglamento vigente (v1.9).**
 
 ---
 

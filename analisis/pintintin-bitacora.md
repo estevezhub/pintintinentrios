@@ -20,7 +20,7 @@ Este proyecto reconstruyó el reglamento desde la tradición oral, lo midió con
 
 | Pieza | Qué es |
 |---|---|
-| `pintintin-reglas.md` | **El reglamento, v1.8.** Reconstruido; dos preguntas resueltas por el informante (§12). Base de todo lo demás |
+| `pintintin-reglas.md` | **El reglamento, v1.9.** Reconstruido; tres preguntas resueltas por el informante (§12). Base de todo lo demás |
 | `pintintin-estrategia.md` | Estrategia medida: alianzas, cerco, conteo, palos frágiles |
 | `pintintin-god-mode.md` | **El análisis profundo.** 12 partes, todo con porcentajes medidos |
 | `pintintin-auditoria.md` | **Revisión y extensión** (28-sep): pruebas, remediciones con IC, Sabio, salida, riesgo, cómplice, remontada, tácticas de mesa, campaña de 2,8M rondas |
@@ -61,7 +61,7 @@ Los siete, con su antídoto, en `pintintin-metodologia.md` §6.
 - Doble-seis **sin** `0/0`, `0/1`, `1/1` → **25 fichas, 165 puntos**.
 - 3 jugadores, 7 fichas cada uno, **4 en la pila que no se usan**.
 - Turno **a la derecha**. Primera jugada oficial: sale el **doble más alto, automático**. Después sale el ganador anterior con lo que quiera.
-- **Pase:** 30 por cada cara viva. **En la salida paga cada rival que falla; en la mano hacen falta los dos.** Tope 60 por jugada.
+- **Pase:** en la **salida**, 30 por cada cara viva y paga **cada** rival que falla (tope 60). En la **mano**, **30** y hacen falta **los dos** *(v1.9)*.
 - **Cara muerta** (nadie puede jugarla: todo en la mesa o lo que falta en la pila) no cuenta. *(v1.8)*
 - **Dominada:** suma de las fichas de los otros dos. **Capicúa:** +30.
 - **Tranca:** se canta al instante, sin pase *(v1.8)*. La mano más baja gana la suma de **las tres** manos. Empate → preferencia del que trancó.
@@ -83,7 +83,7 @@ Las dos funciones que lo deciden todo:
 
 ```
 carasVivas()  = números distintos en los extremos que aún tienen fichas sin jugar
-pase(i)       = 30 × carasVivas, a quien jugó de último
+pase(i)       = salida: 30 × carasVivas · en la mano: 30 (v1.9), a quien jugó de último
                 · en la salida: por cada rival que falla
                 · en la mano: solo cuando fallan los dos
                 · recortado para que nunca alcance 150

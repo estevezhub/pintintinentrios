@@ -26,7 +26,7 @@ Este repositorio reconstruye el reglamento desde la tradición oral, lo mide con
 - Doble-seis **sin** `0/0`, `0/1`, `1/1` → **25 fichas, 165 puntos**.
 - 3 jugadores, 7 fichas cada uno, **4 en la pila que no se usan**.
 - Turno **a la derecha**. Primera jugada oficial: sale el **doble más alto, automático**. Después sale el ganador anterior con lo que quiera.
-- **Pase:** 30 por cada cara viva. **En la salida paga cada rival que falla; en la mano hacen falta los dos.** Tope 60 por jugada.
+- **Pase:** en la **salida**, 30 por cada cara viva y paga **cada** rival que falla (tope 60). En la **mano**, **30** y hacen falta **los dos** *(v1.9)*.
 - **Cara muerta** (nadie puede jugarla: todo en la mesa o lo que falta en la pila) no cuenta.
 - **Dominada:** suma de las fichas de los otros dos. **Capicúa:** +30.
 - **Tranca:** se canta al instante, sin pase. La mano más baja gana la suma de **las tres** manos.
@@ -34,7 +34,7 @@ Este repositorio reconstruye el reglamento desde la tradición oral, lo mide con
 - **Meta 150. Solo pierde el tercero.**
 - **Pasar con ficha:** el infractor pierde la ronda, marcador a 0 – 0 – 0.
 
-**Reglamento v1.8:** dos preguntas que el código obligó a decidir ya las resolvió el informante (tranca sin pase, la pila mata la cara); otras dos siguen abiertas. Ver reglamento §12.
+**Reglamento v1.9:** tres preguntas que el código obligó a decidir ya las resolvió el informante (tranca sin pase, la pila mata la cara, en la mano el pase es 30 aunque haya 2 caras); otras dos siguen abiertas. Ver reglamento §12.
 
 ---
 
@@ -47,7 +47,7 @@ Este repositorio reconstruye el reglamento desde la tradición oral, lo mide con
 | 3 | Jugador | **Cuenta los fallos** | 37,8% | 957 |
 | 4 | Fogueado | + **cierra la mesa** | 33,7% | 1000 |
 | 5 | Maestro | + cerco y cebo | 33,3% | 1000 |
-| 5b | **Balance** | Ahoga; después, puntas donde **tú** respondes más que ellos | **31,6%** (v1.8: 30,4%) | 1017 |
+| 5b | **Balance** | Ahoga; después, puntas donde **tú** respondes más que ellos | **31,6%** (v1.9: 30,8%) | 1017 |
 | 6 | **Sabio** | Simula el resto de la mano sobre repartos posibles | **28,3–30,4%** | — |
 
 Neutro = 33,3% (solo pierde uno de tres). Detalles, costos y recomendaciones de dificultad para un juego en [`analisis/pintintin-bots.md`](analisis/pintintin-bots.md).
@@ -61,7 +61,7 @@ Neutro = 33,3% (solo pierde uno de tres). Detalles, costos y recomendaciones de 
 | | |
 |---|---|
 | **Solo pierde el tercero** | Tu puntuación no importa; importa tu distancia sobre el último |
-| **La mano típica no da nada** | Media 20 pts por jugador y mano, **mediana 0**: el 57% de las manos no anotas (v1.8) |
+| **La mano típica no da nada** | Media 19 pts por jugador y mano, **mediana 0**: el 57% de las manos no anotas (v1.9) |
 | **Salir vale 20 puntos** | El que sale gana la mano el 47%; los otros, ~26%. Y sale el que ganó la anterior |
 | **La primera mano vale una ronda** | Ganarla → pierdes 14%. No anotar en ella → 48% |
 | **La distancia manda más que el puesto** | Último a <20 del segundo: ~50%. A 60+: ~80% |
@@ -161,7 +161,7 @@ En pintintín **solo pierde el tercero**: primero y segundo ganan igual. Por eso
 - Lo que lleva **porcentaje está medido** por simulación, con intervalo de confianza del 95%. Lo que no, está razonado desde la estructura y va marcado como tal.
 - **Este proyecto se equivocó siete veces**, y todas las correcciones están documentadas en la [metodología](analisis/pintintin-metodologia.md#6-los-errores-que-ya-se-cometieron). Conviene leerlas antes de añadir nada.
 - **Los bots no hablan, no leen caras ni pactan en voz alta.** El meta-juego social de una mesa real no está medido.
-- **Las mediciones se hicieron con la lectura anterior de dos reglas** (tranca con pase, cara viva si lo que falta está en la pila). Con el reglamento v1.8 la escalera de bots mantiene su orden y Balance se separa más del Maestro; los pases valen casi la mitad. Detalle y cómo reproducir cada versión: [auditoría §4.12](analisis/pintintin-auditoria.md).
+- **Las mediciones se hicieron con la lectura anterior de tres reglas** (tranca con pase, cara viva si lo que falta está en la pila, 60 por dos caras también en la mano). Con el reglamento v1.9 la escalera de bots mantiene su orden y Balance se separa más del Maestro; los pases valen casi la mitad. Detalle y cómo reproducir cada versión: [auditoría §4.12](analisis/pintintin-auditoria.md).
 - **El reglamento tiene una sola fuente**: un jugador habitual. Eso es un testimonio, no un estándar. Contrastarlo con otras mesas dominicanas es la mejora más valiosa que se le puede hacer a este repositorio.
 
 ---

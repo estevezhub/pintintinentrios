@@ -597,7 +597,7 @@ Está en el motor como **nivel 5b "Balance"** (`nivel5b_balance`). Cuesta lo mis
 
 Las tres descubiertas quedan arriba, separadas del pelotón del Maestro. Nota: en mesas mezcladas con jugadores flojos, la **alianza total** sube (4º), coherente con la Estrategia §3: la alianza destroza al descuidado; entre Maestros no rinde (§4.11a).
 
-### 4.12 Reglamento v1.8: las dos reglas resueltas y su efecto
+### 4.12 Reglamento v1.8 y v1.9: las reglas resueltas y su efecto
 
 El 28-sep-2026 el informante resolvió dos preguntas abiertas (reglamento §12):
 
@@ -632,7 +632,20 @@ El motor Python las adopta por defecto (`PASE_EN_TRANCA = False`, `CARA_EN_PILA_
 > ### Con las reglas oficiales, los pases valen casi la mitad y ganar manos pesa más.
 > El orden de los bots no cambia, y **Balance se separa más del Maestro**: con menos dinero en los pases, conservar respuestas (y así ganar la mano) vale todavía más.
 
-Lo demás del documento —la estructura, las tácticas refutadas, el Sabio— **no se volvió a medir** con v1.8; los órdenes de magnitud deberían mantenerse, pero cualquier cifra nueva debe medirse con las reglas oficiales. La tabla de valor del Sabio (`motor/tabla_valor.json`) ya está regenerada con v1.8, y el simulador rápido del laboratorio respeta las dos reglas (4.000/4.000 manos idénticas al motor en cada lectura).
+#### v1.9: en la mano, el pase es 30 aunque haya dos caras
+
+El informante aclaró con una partida real que **los 60 por dos caras solo existen en la salida**: durante la mano, cuando fallan los dos, se cobran 30. Motor: `PASE_MANO_POR_CARA = False` (en `True` se reproduce la lectura anterior). La partida del informante quedó como prueba (`EjemploDelInformante`).
+
+| | v1.8 | **v1.9** |
+|---|---|---|
+| Pases por jugador y mano | 8,2 | **7,8** |
+| Manos por ronda | 5,1 | 5,2 |
+| Control (Maestro) · Balance, 30.000 rondas, semillas 11 | 33,0% · 30,4% | 33,3% · **30,8%** (Δ −2,5) |
+| Jugador · Fogueado | 39,8% · 33,4% | 39,9% · 33,5% |
+
+El efecto es pequeño porque que fallen los dos con dos caras vivas durante la mano es raro. Salidas en `datos/perfil_maestros_v19.txt` y `datos/reglas_v19_escalera.txt`.
+
+Lo demás del documento —la estructura, las tácticas refutadas, el Sabio— **no se volvió a medir** con v1.8 ni v1.9; los órdenes de magnitud deberían mantenerse, pero cualquier cifra nueva debe medirse con las reglas oficiales. La tabla de valor del Sabio (`motor/tabla_valor.json`) ya está regenerada con v1.9, y el simulador rápido del laboratorio respeta las dos reglas (4.000/4.000 manos idénticas al motor en cada lectura).
 
 ---
 
