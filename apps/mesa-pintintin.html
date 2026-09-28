@@ -1,0 +1,844 @@
+<title>Mesa de Pintintín</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  color-scheme: light;
+  --bg:#EFF1EE; --surface:#FFFFFF; --surface-2:#E7EBE7;
+  --ink:#14201C; --ink-2:#5A6B65; --ink-3:#8A9A93;
+  --line:#D3DAD5; --line-2:#C0CAC3;
+  --felt:#23473C; --felt-2:#1B3A31; --felt-line:#33604F; --felt-ink:#CFE0D7;
+  --bone:#F7F4EC; --bone-edge:#DDD6C6; --pip:#1A1F1D;
+  --gold:#9E6E22; --gold-bg:#F5EBD8;
+  --live:#1F7A5C; --live-bg:#DDEFE7;
+  --dead:#A13B2E; --dead-bg:#F6E3DF;
+  --d:#14201C0F;
+  --f-disp:"Bricolage Grotesque","Archivo",system-ui,sans-serif;
+  --f-ui:"Archivo",system-ui,-apple-system,sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  color-scheme: dark;
+  --bg:#111614; --surface:#1A211E; --surface-2:#232B27;
+  --ink:#E8EEEA; --ink-2:#93A39C; --ink-3:#6B7A74;
+  --line:#2A3430; --line-2:#37433E;
+  --felt:#1B3A31; --felt-2:#142C25; --felt-line:#2C5647; --felt-ink:#BFD5CA;
+  --bone:#EFEAE0; --bone-edge:#B9B2A3; --pip:#141816;
+  --gold:#D6A354; --gold-bg:#3A2E18;
+  --live:#48B389; --live-bg:#16302588;
+  --dead:#D9705E; --dead-bg:#3A1F1A;
+  --d:#00000040;
+}}
+:root[data-theme="dark"]{
+  color-scheme: dark;
+  --bg:#111614; --surface:#1A211E; --surface-2:#232B27;
+  --ink:#E8EEEA; --ink-2:#93A39C; --ink-3:#6B7A74;
+  --line:#2A3430; --line-2:#37433E;
+  --felt:#1B3A31; --felt-2:#142C25; --felt-line:#2C5647; --felt-ink:#BFD5CA;
+  --bone:#EFEAE0; --bone-edge:#B9B2A3; --pip:#141816;
+  --gold:#D6A354; --gold-bg:#3A2E18;
+  --live:#48B389; --live-bg:#16302588;
+  --dead:#D9705E; --dead-bg:#3A1F1A;
+  --d:#00000040;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-ui);font-size:14px;line-height:1.5;-webkit-text-size-adjust:100%}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:16px;padding-block:20px 48px}
+h1,h2,h3{margin:0;font-family:var(--f-disp);text-wrap:balance;letter-spacing:-.015em}
+h1{font-size:clamp(26px,5.2vw,40px);font-weight:800;line-height:1.02}
+h2{font-size:15px;font-weight:700;letter-spacing:.02em}
+h3{font-size:13px;font-weight:700}
+.eyebrow{font-family:var(--f-num);font-size:10.5px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.num{font-family:var(--f-num);font-variant-numeric:tabular-nums}
+
+/* header */
+header{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:flex-end;justify-content:space-between;padding-bottom:16px;border-bottom:1px solid var(--line);margin-bottom:20px}
+.sub{color:var(--ink-2);max-width:50ch;margin-top:6px;font-size:13px}
+.theme-btn{font:inherit;font-size:12px;background:var(--surface);color:var(--ink-2);border:1px solid var(--line);border-radius:999px;padding:6px 12px;cursor:pointer}
+.theme-btn:hover{border-color:var(--line-2);color:var(--ink)}
+
+/* panels */
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:10px}
+.panel-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line)}
+.panel-bd{padding:14px}
+
+/* scoreboard */
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px}
+.pcard{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;position:relative;overflow:hidden}
+.pcard::before{content:"";position:absolute;inset:0 auto 0 0;width:3px;background:var(--line-2)}
+.pcard.turn::before{background:var(--gold)}
+.pcard.turn{border-color:var(--gold)}
+.pcard.out::before{background:var(--dead)}
+.pname{font:inherit;font-family:var(--f-disp);font-weight:700;font-size:14px;color:var(--ink);background:transparent;border:0;border-bottom:1px dashed var(--line-2);padding:0 0 2px;width:100%;min-width:0}
+.pname:focus{outline:2px solid var(--gold);outline-offset:2px;border-bottom-color:transparent}
+.srow{display:flex;align-items:baseline;gap:6px}
+.score{font:inherit;font-family:var(--f-num);font-weight:600;font-size:26px;letter-spacing:-.02em;color:var(--ink);background:transparent;border:0;border-bottom:1px dashed var(--line-2);width:3.4em;padding:0;font-variant-numeric:tabular-nums}
+.score:focus{outline:2px solid var(--gold);outline-offset:2px}
+.score::-webkit-outer-spin-button,.score::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.score{-moz-appearance:textfield}
+.of150{font-size:11px;color:var(--ink-3);font-family:var(--f-num)}
+.chips{display:flex;flex-wrap:wrap;gap:4px}
+.chip{font-family:var(--f-num);font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;padding:2.5px 7px;border-radius:999px;border:1px solid transparent;white-space:nowrap}
+.chip.turn{background:var(--gold-bg);color:var(--gold);border-color:var(--gold)}
+.chip.va{background:var(--live-bg);color:var(--live)}
+.chip.nova{background:var(--dead-bg);color:var(--dead)}
+.chip.cap{background:var(--surface-2);color:var(--ink-2)}
+.chip.win{background:var(--live);color:#fff}
+.chip.lose{background:var(--dead);color:#fff}
+
+/* main grid */
+.grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:16px;align-items:start}
+
+/* felt / mesa */
+.felt{background:linear-gradient(170deg,var(--felt) 0%,var(--felt-2) 100%);border:1px solid var(--felt-line);border-radius:10px;padding:14px;color:var(--felt-ink)}
+.felt .eyebrow{color:#ffffff66}
+.felt-hd{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+.chainbox{display:flex;align-items:center;gap:8px;overflow-x:auto;padding:12px 2px;background:#0000001f;border-radius:8px;box-shadow:inset 0 1px 3px #0000002e;min-height:78px}
+.chainbox::-webkit-scrollbar{height:7px}
+.chainbox::-webkit-scrollbar-thumb{background:#ffffff33;border-radius:99px}
+.chainrun{display:flex;align-items:center;gap:3px;margin:0 auto;padding:0 6px}
+.empty-mesa{margin:0 auto;font-size:12.5px;color:#ffffff7a;font-family:var(--f-num)}
+.cap{flex:none;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 9px;border-radius:7px;border:1px dashed #ffffff40}
+.cap b{font-family:var(--f-num);font-size:20px;font-weight:600;line-height:1;color:#fff}
+.cap span{font-family:var(--f-num);font-size:9px;letter-spacing:.1em;text-transform:uppercase}
+.cap.live{border-color:var(--live);border-style:solid;background:#1f7a5c26}
+.cap.live span{color:#7FD6B4}
+.cap.dead{border-color:var(--dead);border-style:solid;background:#a13b2e26}
+.cap.dead span{color:#E9A79C}
+
+/* tiles */
+.t{--ts:31px;flex:none;display:flex;background:var(--bone);border:1px solid var(--bone-edge);border-radius:4px;overflow:hidden;box-shadow:0 1px 2px var(--d);padding:0;font:inherit}
+.t.v{flex-direction:column}
+.t .h{width:var(--ts);height:var(--ts);display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);padding:11%;gap:7%}
+.t .h+.h{box-shadow:inset 1px 0 0 var(--bone-edge)}
+.t.v .h+.h{box-shadow:inset 0 1px 0 var(--bone-edge)}
+.t i{border-radius:50%;background:var(--pip);display:block;width:100%;height:100%}
+.t.sm{--ts:25px}
+.t.mesa{box-shadow:0 1px 3px #00000059}
+button.t{cursor:pointer;transition:transform .09s,box-shadow .09s}
+button.t:disabled{cursor:default;opacity:.62}
+button.t:not(:disabled):hover{transform:translateY(-3px);box-shadow:0 4px 8px var(--d)}
+button.t.sel{outline:2.5px solid var(--gold);outline-offset:2px;transform:translateY(-3px)}
+button.t.ok{box-shadow:0 0 0 1.5px var(--live),0 1px 2px var(--d)}
+button.t:focus-visible{outline:2.5px solid var(--gold);outline-offset:2px}
+
+/* hands */
+.hand{border-top:1px solid var(--line);padding:12px 14px}
+.hand:first-child{border-top:0}
+.hand.active{background:var(--surface-2)}
+.hand-hd{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:9px}
+.hand-hd .who{font-family:var(--f-disp);font-weight:700;font-size:13.5px}
+.hand-hd .meta{font-family:var(--f-num);font-size:11px;color:var(--ink-3)}
+.tiles{display:flex;flex-wrap:wrap;gap:6px;min-height:28px;align-items:center}
+.tiles .none{font-family:var(--f-num);font-size:11.5px;color:var(--ink-3)}
+.sidebar-pick{display:flex;gap:6px;align-items:center;margin-top:9px;padding:8px 10px;background:var(--gold-bg);border:1px solid var(--gold);border-radius:7px;flex-wrap:wrap}
+.sidebar-pick span{font-size:12px;color:var(--gold);font-weight:600}
+
+/* buttons */
+.btn{font:inherit;font-size:12.5px;font-weight:600;background:var(--surface);color:var(--ink);border:1px solid var(--line-2);border-radius:7px;padding:7px 12px;cursor:pointer;white-space:nowrap}
+.btn:hover{background:var(--surface-2)}
+.btn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.btn:disabled{opacity:.4;cursor:default}
+.btn.p{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn.p:hover{opacity:.88;background:var(--ink)}
+.btn.warn{background:var(--dead-bg);color:var(--dead);border-color:var(--dead)}
+.btn.warn:hover{background:var(--dead);color:#fff}
+.btn.warn[data-armed="1"]{background:var(--dead);color:#fff}
+.btn.sm{font-size:11.5px;padding:5px 9px}
+.btnrow{display:flex;flex-wrap:wrap;gap:7px}
+
+/* motor */
+.readout{display:grid;gap:0}
+.ro{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px dotted var(--line)}
+.ro:last-child{border-bottom:0}
+.ro dt{font-size:12px;color:var(--ink-2)}
+.ro dd{margin:0;font-family:var(--f-num);font-size:13px;font-weight:500;text-align:right}
+.big{display:flex;align-items:baseline;gap:8px;padding:11px 13px;background:var(--gold-bg);border:1px solid var(--gold);border-radius:8px;margin-bottom:12px}
+.big b{font-family:var(--f-num);font-size:30px;font-weight:600;line-height:1;color:var(--gold)}
+.big em{font-style:normal;font-size:11.5px;color:var(--gold);font-weight:600;letter-spacing:.02em}
+.banner{padding:11px 13px;border-radius:8px;margin-bottom:12px;font-size:12.5px;border:1px solid}
+.banner b{font-family:var(--f-disp);font-size:13.5px;display:block;margin-bottom:2px}
+.banner.good{background:var(--live-bg);border-color:var(--live);color:var(--ink)}
+.banner.bad{background:var(--dead-bg);border-color:var(--dead);color:var(--ink)}
+
+/* log */
+.log{list-style:none;margin:0;padding:0;max-height:260px;overflow-y:auto;font-size:12.5px}
+.log li{display:flex;gap:8px;padding:6px 0;border-bottom:1px dotted var(--line)}
+.log li:last-child{border-bottom:0}
+.log .n{font-family:var(--f-num);font-size:10.5px;color:var(--ink-3);flex:none;width:1.9em;text-align:right;padding-top:2px}
+.log .tx{flex:1;min-width:0}
+.log .pt{font-family:var(--f-num);font-weight:600;color:var(--gold);flex:none}
+.log .pt.neg{color:var(--dead)}
+.log .empty{color:var(--ink-3);font-family:var(--f-num);font-size:11.5px}
+
+/* setup */
+.brushes{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:11px}
+.brush{font:inherit;font-size:11.5px;font-weight:600;padding:5px 10px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink-2);cursor:pointer}
+.brush[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.pool{display:flex;flex-wrap:wrap;gap:5px}
+.pw{display:flex;flex-direction:column;align-items:center;gap:2px}
+.pw .tag{font-family:var(--f-num);font-size:9px;letter-spacing:.04em;color:var(--ink-3)}
+.pw .tag.on{color:var(--gold);font-weight:600}
+details.setup{margin-top:16px}
+details.setup summary{cursor:pointer;font-family:var(--f-disp);font-weight:700;font-size:14px;padding:11px 14px;list-style:none}
+details.setup summary::-webkit-details-marker{display:none}
+details.setup summary::before{content:"▸ ";color:var(--ink-3)}
+details.setup[open] summary::before{content:"▾ "}
+.hint{font-size:12px;color:var(--ink-2);margin:0 0 11px}
+
+/* export */
+textarea.out{width:100%;min-height:150px;font-family:var(--f-num);font-size:11.5px;line-height:1.55;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:10px;resize:vertical;white-space:pre}
+
+/* rules ref */
+.rules{font-size:12.5px;color:var(--ink-2)}
+.rules dl{margin:0;display:grid;gap:0}
+.rules dt{font-weight:600;color:var(--ink);font-size:12px;margin-top:9px}
+.rules dd{margin:1px 0 0}
+.rules dt:first-child{margin-top:0}
+
+@media (max-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .board{grid-template-columns:1fr;gap:8px}
+  .pcard{flex-direction:row;align-items:center;gap:12px;flex-wrap:wrap}
+  .pcard>*{margin:0}
+  .pname{width:auto;flex:1 1 90px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <p class="eyebrow">Dominó dominicano · 3 jugadores</p>
+      <h1>Mesa de Pintintín</h1>
+      <p class="sub">Laboratorio de reglas. Arma cualquier posición, edita manos y marcador, y el motor te dice qué se cobra en cada jugada.</p>
+    </div>
+    <button class="theme-btn" id="theme" type="button">Tema</button>
+  </header>
+
+  <div class="board" id="board"></div>
+
+  <div class="grid">
+    <div>
+      <section class="felt">
+        <div class="felt-hd">
+          <p class="eyebrow">La mesa</p>
+          <span class="eyebrow num" id="mesa-count"></span>
+        </div>
+        <div class="chainbox" id="chain"></div>
+      </section>
+
+      <section class="panel" style="margin-top:16px">
+        <div class="panel-hd"><h2>Manos</h2><span class="eyebrow">clic en una ficha para jugarla</span></div>
+        <div id="hands"></div>
+      </section>
+
+      <details class="setup panel">
+        <summary>Armar posición</summary>
+        <div class="panel-bd" style="padding-top:0">
+          <p class="hint">Elige un destino y luego toca las fichas para asignarlas. La mesa se construye jugando o cargando un escenario.</p>
+          <div class="brushes" id="brushes"></div>
+          <div class="pool" id="pool"></div>
+        </div>
+      </details>
+
+      <section class="panel rules" style="margin-top:16px">
+        <div class="panel-hd"><h2>Reglas que aplica el motor</h2><span class="eyebrow">v1.2</span></div>
+        <div class="panel-bd">
+          <dl>
+            <dt>Pase</dt><dd>30 por cada cara viva, a cada rival que no va. Lo cobra quien hizo la última jugada.</dd>
+            <dt>Cara muerta</dt><dd>Si todas las fichas de ese número ya están en la mesa, ese extremo no cuenta y el pase paga la mitad.</dd>
+            <dt>Techo 149</dt><dd>Un bono nunca lleva a 150. Desde 120 los bonos no suman nada.</dd>
+            <dt>Dominada</dt><dd>Suma de las fichas de los otros dos. Capicúa: +30, sujeto al techo.</dd>
+            <dt>Tranca</dt><dd>La mano más baja gana la suma de las tres manos. Empate: preferencia del que trancó; si él no está empatado, gana quien le sigue en el turno.</dd>
+            <dt>Pasar con ficha</dt><dd>El infractor es el perdedor de la ronda y el marcador vuelve a 0 – 0 – 0.</dd>
+            <dt>Cierre</dt><dd>Alguien llega a 150 → termina la ronda y el tercer lugar pierde. Si los otros dos quedan iguales, muerte súbita.</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+
+    <div style="display:grid;gap:16px">
+      <section class="panel">
+        <div class="panel-hd"><h2>Motor</h2><span class="eyebrow">reglas v1.2</span></div>
+        <div class="panel-bd">
+          <div id="banner"></div>
+          <div class="big"><b id="pv">—</b><em id="pv-lbl"></em></div>
+          <dl class="readout" id="readout"></dl>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-hd"><h2>Controles</h2></div>
+        <div class="panel-bd">
+          <div class="btnrow" style="margin-bottom:11px">
+            <button class="btn p" id="deal" type="button">Repartir 7·7·7</button>
+            <button class="btn" id="newhand" type="button">Nueva mano</button>
+            <button class="btn" id="clear" type="button">Limpiar todo</button>
+            <button class="btn" id="undo" type="button">Deshacer</button>
+          </div>
+          <p class="eyebrow" style="margin:0 0 7px">Escenarios</p>
+          <div class="btnrow" id="presets"></div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-hd"><h2>Bitácora</h2><span class="eyebrow num" id="log-n"></span></div>
+        <div class="panel-bd"><ul class="log" id="log"></ul></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-hd"><h2>Exportar estado</h2><button class="btn sm" id="copy" type="button">Copiar</button></div>
+        <div class="panel-bd">
+          <p class="hint">Pégalo en el chat para seguir afinando el reglamento.</p>
+          <textarea class="out" id="out" readonly spellcheck="false"></textarea>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var PIPS={0:[],1:[5],2:[1,9],3:[1,5,9],4:[1,3,7,9],5:[1,3,5,7,9],6:[1,3,4,6,7,9]};
+var TILES=[];
+for(var a=0;a<7;a++)for(var b=a;b<7;b++){ if((a===0&&b===0)||(a===0&&b===1)||(a===1&&b===1))continue; TILES.push([a,b]); }
+function K(a,b){return Math.min(a,b)+"-"+Math.max(a,b);}
+function pipsOf(k){var p=k.split("-");return (+p[0])+(+p[1]);}
+function faces(k){var p=k.split("-");return [+p[0],+p[1]];}
+var ALL=TILES.map(function(t){return K(t[0],t[1]);});
+var LOCS=["h0","h1","h2","pila","libre"];
+
+var S,HIST=[];
+function fresh(){
+  var loc={}; ALL.forEach(function(k){loc[k]="libre";});
+  return {loc:loc,chain:[],scores:[0,0,0],names:["J1","J2","J3"],turn:0,last:null,streak:0,fails:0,paid:0,lastWinner:null,modo:"ronda",duo:null,campeon:null,
+          log:[],status:"libre",sel:null,brush:"h0",result:null,opener:0};
+}
+function snap(){ HIST.push(JSON.stringify({loc:S.loc,chain:S.chain,scores:S.scores,turn:S.turn,last:S.last,streak:S.streak,fails:S.fails,paid:S.paid,modo:S.modo,duo:S.duo,campeon:S.campeon,log:S.log,status:S.status,result:S.result,opener:S.opener})); if(HIST.length>40)HIST.shift(); }
+function undo(){ if(!HIST.length)return; var p=JSON.parse(HIST.pop()); for(var k in p)S[k]=p[k]; S.sel=null; render(); }
+
+/* ---- engine ---- */
+function next(i){ return (S.modo==="subita"&&S.duo) ? (i===S.duo[0]?S.duo[1]:S.duo[0]) : (i+1)%3; }
+function ends(){ if(!S.chain.length)return null; return [S.chain[0].l, S.chain[S.chain.length-1].r]; }
+function onMesa(k){ return S.loc[k]==="mesa"; }
+function alive(n){ return ALL.some(function(k){ var f=faces(k); return (f[0]===n||f[1]===n) && !onMesa(k); }); }
+function caras(){ var e=ends(); if(!e)return {nums:[],n:0,dead:[]};
+  var uniq = e[0]===e[1] ? [e[0]] : [e[0],e[1]];
+  var live=uniq.filter(alive), dead=uniq.filter(function(n){return !alive(n);});
+  return {nums:live,n:live.length,dead:dead};
+}
+function passValue(){ return 30*caras().n; }
+function hand(i){ return ALL.filter(function(k){return S.loc[k]==="h"+i;}); }
+function pila(){ return ALL.filter(function(k){return S.loc[k]==="pila";}); }
+function free(){ return ALL.filter(function(k){return S.loc[k]==="libre";}); }
+function sum(arr){ return arr.reduce(function(a,k){return a+pipsOf(k);},0); }
+function sides(k){ var e=ends(); if(!e)return {l:true,r:true,any:true};
+  var f=faces(k); return {l:(f[0]===e[0]||f[1]===e[0]), r:(f[0]===e[1]||f[1]===e[1]), any:(f[0]===e[0]||f[1]===e[0]||f[0]===e[1]||f[1]===e[1])}; }
+function canPlay(i){ return hand(i).some(function(k){return sides(k).any;}); }
+function live(){ return S.status==="juego"; }
+
+function logit(tx,pt,neg){ S.log.push({tx:tx,pt:pt||null,neg:!!neg}); }
+function bonus(i,pts){ var c=S.scores[i]; if(c>=120)return 0; return Math.min(pts,149-c); }
+
+function play(i,k,side){
+  snap();
+  var e=ends(), f=faces(k), capicua=false;
+  if(!e){ S.chain.push({k:k,l:f[0],r:f[1]}); }
+  else{
+    if(side==="l"){ var o=(f[1]===e[0])?[f[0],f[1]]:[f[1],f[0]]; S.chain.unshift({k:k,l:o[0],r:o[1]}); }
+    else{ var o2=(f[0]===e[1])?[f[0],f[1]]:[f[1],f[0]]; S.chain.push({k:k,l:o2[0],r:o2[1]}); }
+    if(e[0]!==e[1] && f[0]!==f[1] && ((f[0]===e[0]&&f[1]===e[1])||(f[1]===e[0]&&f[0]===e[1]))) capicua=true;
+  }
+  S.loc[k]="mesa"; S.last=i; S.streak=0; S.fails=0; S.paid=0; S.sel=null; S.status="juego";
+  logit(nm(i)+" juega "+tile(k)+(e?"":" (salida)"));
+  if(hand(i).length===0){ dominada(i,capicua); return; }
+  S.turn=next(i); after();
+}
+function dominada(i,capicua){
+  if(S.modo==="subita"){ finSubita(i,"jugó todas sus fichas"); return; }
+  var pts=0,parts=[];
+  for(var j=0;j<3;j++) if(j!==i){ var s=sum(hand(j)); pts+=s; parts.push(nm(j)+" "+s); }
+  var base=pts;
+  S.scores[i]+=pts;
+  logit(nm(i)+" DOMINA · "+parts.join(" + "),"+"+base);
+  if(capicua){ var cb=bonus(i,30); S.scores[i]+=cb;
+    logit("Capicúa"+(cb<30?" (recortado por el techo de 149)":""), cb?("+"+cb):"0"); }
+  S.status="fin"; S.lastWinner=i; S.result={tipo:"dominada",who:i,pts:base+(capicua?30:0)};
+  closeRound();
+}
+function noVa(i){
+  if(canPlay(i)){ return "tiene"; }
+  if(S.modo==="subita"){
+    snap(); S.streak++; S.sel=null;
+    logit(nm(i)+" no va · en muerte súbita no se cobran pases");
+    if(S.streak>=2){ tranca(); return null; }
+    S.turn=next(i); return null;
+  }
+  snap();
+  var c=caras(), v=30*c.n, salida=(S.chain.length===1);
+  var caraTx=" · "+c.n+" cara"+(c.n===1?"":"s")+" viva"+(c.n===1?"":"s");
+  S.streak++; S.sel=null;
+  if(S.last!==null && S.last!==i) S.fails++;
+
+  if(S.last===null || S.last===i){
+    logit(nm(i)+" no va"+(S.last===i?" (es quien jugó: nadie cobra)":""));
+  } else if(v===0){
+    logit(nm(i)+" no va → nadie cobra: la mesa no tiene caras vivas","0");
+  } else if(!salida && S.fails<2){
+    logit(nm(i)+" no va → "+nm(S.last)+" todavía no cobra: fuera de la salida hacen falta los dos"+caraTx,"0");
+  } else {
+    var room=Math.max(0,60-S.paid), want=Math.min(v,room);
+    if(want<=0){
+      logit(nm(i)+" no va → "+nm(S.last)+" ya cobró el tope de 60 en esta jugada"+caraTx,"0");
+    } else {
+      var pre=S.scores[S.last], got=bonus(S.last,want);
+      S.scores[S.last]+=got; S.paid+=want;
+      var quien = salida ? (nm(i)+" no va en la salida") : ("no van los dos");
+      if(got===0) logit(quien+" → "+nm(S.last)+" NO cobra: va en "+pre+" y desde 120 los bonos no entran"+caraTx,"0");
+      else if(got<want) logit(quien+" → "+nm(S.last)+" cobra "+got+" de "+want+": el techo de los bonos es 149"+caraTx,"+"+got);
+      else logit(quien+" → "+nm(S.last)+" cobra"+caraTx,"+"+got);
+    }
+  }
+  if(S.streak>=3){ tranca(); return null; }
+  S.turn=next(i); after(); return null;
+}
+function finSubita(salvado,why){
+  var lost=(salvado===S.duo[0])?S.duo[1]:S.duo[0];
+  logit(nm(salvado)+" SE SALVA ("+why+")");
+  logit(nm(lost)+" queda tercero y PIERDE la ronda");
+  S.status="cerrada"; S.result={tipo:"subita",salvado:salvado,perdedor:lost,campeon:S.campeon,cierre:"subita-resuelta"};
+}
+function tranca(){
+  if(S.modo==="subita"){
+    var a=S.duo[0],b=S.duo[1],sa=sum(hand(a)),sb=sum(hand(b));
+    logit("TRANCA · "+nm(a)+" "+sa+" pts · "+nm(b)+" "+sb+" pts");
+    if(sa===sb){ var tr=(S.last===a||S.last===b)?S.last:a;
+      finSubita(tr,"empate a "+sa+": preferencia del que trancó"); return; }
+    finSubita(sa<sb?a:b,"se tranca con menos puntos"); return;
+  }
+  var sums=[sum(hand(0)),sum(hand(1)),sum(hand(2))];
+  var m=Math.min.apply(null,sums), tied=[0,1,2].filter(function(i){return sums[i]===m;});
+  var tr=(S.last===null)?0:S.last, w, why;
+  if(tied.length===1){ w=tied[0]; why="mano más baja"; }
+  else if(tied.indexOf(tr)>=0){ w=tr; why="empate, preferencia del que trancó"; }
+  else{ for(var s=1;s<=3;s++){ var c=(tr+s)%3; if(tied.indexOf(c)>=0){ w=c; break; } } why="empate sin el que trancó: le sigue en el turno"; }
+  var pts=sums[0]+sums[1]+sums[2];
+  S.scores[w]+=pts;
+  logit("TRANCA · manos "+sums.map(function(v,i){return nm(i)+" "+v;}).join(" · "));
+  logit(nm(w)+" gana la tranca ("+why+") · suma de las tres manos","+"+pts);
+  S.status="fin"; S.lastWinner=w; S.result={tipo:"tranca",who:w,pts:pts,why:why,sums:sums,trancador:tr};
+  closeRound();
+}
+function penal(i){
+  snap();
+  logit(nm(i)+" PASÓ CON FICHA · es el perdedor de la ronda","0 – 0 – 0",true);
+  S.scores=[0,0,0]; S.status="penal"; S.result={tipo:"penal",who:i};
+  ALL.forEach(function(k){S.loc[k]="libre";}); S.chain=[]; S.last=null; S.streak=0; S.fails=0; S.paid=0; S.sel=null;
+}
+function after(){ if(S.status==="juego") closeRound(); }
+function closeRound(){
+  if(S.modo==="subita") return;
+  var mx=Math.max.apply(null,S.scores);
+  if(mx<150) return;
+  var order=[0,1,2].slice().sort(function(a,b){return S.scores[b]-S.scores[a];});
+  var lowest=Math.min.apply(null,S.scores);
+  var bottom=[0,1,2].filter(function(i){return S.scores[i]===lowest;});
+  if(bottom.length>1){
+    S.status="subita";
+    S.result=Object.assign(S.result||{},{cierre:"subita",empatados:bottom});
+    logit("Ronda cerrada. "+bottom.map(nm).join(" y ")+" quedan iguales → MUERTE SÚBITA para decidir quién pierde");
+  } else {
+    S.status="cerrada";
+    S.result=Object.assign(S.result||{},{cierre:"normal",perdedor:bottom[0],orden:order});
+    logit("Ronda cerrada · "+nm(bottom[0])+" queda tercero y PIERDE");
+  }
+}
+function primeraMano(){ return !S.scores[0] && !S.scores[1] && !S.scores[2]; }
+function autoSalida(){
+  if(S.chain.length || !primeraMano()) return false;
+  for(var v=6;v>=2;v--){
+    var k=K(v,v), L=S.loc[k];
+    if(L && L.charAt(0)==="h"){
+      var i=+L.charAt(1);
+      S.turn=i; S.opener=i; S.status="juego";
+      logit("Primera jugada oficial · salida automática: "+nm(i)+" tiene el "+v+"/"+v+", el doble más alto repartido. No puede elegir otra ficha.");
+      play(i,k,"r");
+      return true;
+    }
+  }
+  return false;
+}
+function nm(i){ return S.names[i]; }
+function tile(k){ var f=faces(k); return "["+f[0]+"|"+f[1]+"]"; }
+
+/* ---- render ---- */
+var $=function(id){return document.getElementById(id);};
+function el(t,c,x){ var n=document.createElement(t); if(c)n.className=c; if(x!=null)n.textContent=x; return n; }
+function tileNode(k,opts){
+  opts=opts||{};
+  var f=faces(k), dbl=f[0]===f[1];
+  var n=document.createElement(opts.btn?"button":"div");
+  n.className="t"+(opts.cls?" "+opts.cls:"")+((dbl&&opts.vertical)?" v":"");
+  if(opts.btn){ n.type="button"; }
+  var order=opts.orient||f;
+  [order[0],order[1]].forEach(function(v){
+    var h=el("div","h");
+    for(var p=1;p<=9;p++){ var c=document.createElement(p===0?"span":"i");
+      if(PIPS[v].indexOf(p)<0) c.style.visibility="hidden"; h.appendChild(c); }
+    n.appendChild(h);
+  });
+  n.setAttribute("aria-label",f[0]+" "+f[1]);
+  return n;
+}
+function render(){ board(); mesa(); hands(); motor(); logv(); poolv(); out(); }
+
+function board(){
+  var b=$("board"); b.innerHTML="";
+  for(var i=0;i<3;i++){ (function(i){
+    var c=el("div","pcard"+(live()&&S.turn===i?" turn":"")+((S.result&&S.result.perdedor===i)||(S.result&&S.result.tipo==="penal"&&S.result.who===i)?" out":""));
+    var nameI=document.createElement("input"); nameI.className="pname"; nameI.value=S.names[i]; nameI.setAttribute("aria-label","Nombre jugador "+(i+1));
+    nameI.addEventListener("input",function(){ S.names[i]=nameI.value||("J"+(i+1)); logv(); out(); board2(); });
+    c.appendChild(nameI);
+    var row=el("div","srow");
+    var sc=document.createElement("input"); sc.type="number"; sc.className="score"; sc.value=S.scores[i]; sc.min="0"; sc.max="400"; sc.setAttribute("aria-label","Puntos "+S.names[i]);
+    sc.addEventListener("change",function(){ snap(); S.scores[i]=Math.max(0,Math.min(400,parseInt(sc.value||"0",10)||0)); render(); });
+    row.appendChild(sc); row.appendChild(el("span","of150 num","/150"));
+    c.appendChild(row);
+    var ch=el("div","chips");
+    if(live()&&S.turn===i) ch.appendChild(el("span","chip turn","turno"));
+    if(S.chain.length&&S.loc){ var cp=canPlay(i); ch.appendChild(el("span","chip "+(cp?"va":"nova"),cp?"va":"no va")); }
+    if(S.scores[i]>=120) ch.appendChild(el("span","chip cap","sin bonos"));
+    if(S.scores[i]>=150) ch.appendChild(el("span","chip win","150+"));
+    if(S.modo==="subita"){
+      if(S.campeon===i) ch.appendChild(el("span","chip win","ya ganó"));
+      else if(S.duo&&S.duo.indexOf(i)>=0) ch.appendChild(el("span","chip cap","duelo"));
+    }
+    if(S.result&&S.result.perdedor===i) ch.appendChild(el("span","chip lose","pierde"));
+    if(S.result&&S.result.salvado===i) ch.appendChild(el("span","chip win","se salva"));
+    if(S.result&&S.result.tipo==="penal"&&S.result.who===i) ch.appendChild(el("span","chip lose","pasó con ficha"));
+    ch.appendChild(el("span","chip cap",hand(i).length+" fichas · "+sum(hand(i))+" pts"));
+    c.appendChild(ch);
+    b.appendChild(c);
+  })(i); }
+}
+function board2(){ /* light refresh of names only */ }
+
+function mesa(){
+  var box=$("chain"); box.innerHTML="";
+  $("mesa-count").textContent=S.chain.length+" fichas en la mesa";
+  if(!S.chain.length){ box.appendChild(el("p","empty-mesa","Mesa vacía — reparte y juega la salida, o carga un escenario.")); return; }
+  var c=caras(), e=ends();
+  function capNode(n){
+    var isLive=c.nums.indexOf(n)>=0;
+    var d=el("div","cap "+(isLive?"live":"dead"));
+    d.appendChild(el("b",null,String(n)));
+    d.appendChild(el("span",null,isLive?"viva":"muerta"));
+    return d;
+  }
+  box.appendChild(capNode(e[0]));
+  var run=el("div","chainrun");
+  S.chain.forEach(function(c2){ run.appendChild(tileNode(c2.k,{cls:"sm mesa",orient:[c2.l,c2.r],vertical:true})); });
+  box.appendChild(run);
+  box.appendChild(capNode(e[1]));
+}
+
+function hands(){
+  var wrap=$("hands"); wrap.innerHTML="";
+  for(var i=0;i<3;i++){ (function(i){
+    var h=hand(i), act=live()&&S.turn===i;
+    var sec=el("div","hand"+(act?" active":""));
+    var hd=el("div","hand-hd");
+    hd.appendChild(el("span","who",S.names[i]));
+    hd.appendChild(el("span","meta",h.length+" fichas · "+sum(h)+" pts"));
+    if(S.chain.length){ var cp=canPlay(i); hd.appendChild(el("span","chip "+(cp?"va":"nova"),cp?"va":"no va")); }
+    if(act){
+      var nv=el("button","btn sm"+(canPlay(i)?" warn":""));
+      nv.type="button"; nv.textContent=canPlay(i)?"No va ⚠ tiene ficha":"No va";
+      nv.addEventListener("click",function(){
+        if(canPlay(i)){
+          if(nv.dataset.armed==="1"){ penal(i); render(); return; }
+          nv.dataset.armed="1"; nv.textContent="Confirmar: pasar con ficha borra la ronda";
+          return;
+        }
+        noVa(i); render();
+      });
+      hd.appendChild(nv);
+    }
+    sec.appendChild(hd);
+    var tl=el("div","tiles");
+    if(!h.length) tl.appendChild(el("span","none","sin fichas"));
+    h.slice().sort(function(x,y){return pipsOf(x)-pipsOf(y);}).forEach(function(k){
+      var sd=sides(k), can=live()&&S.turn===i&&sd.any;
+      var b=tileNode(k,{btn:true,cls:(can?"ok":"")+(S.sel===k?" sel":""),vertical:false});
+      b.disabled=!can;
+      b.addEventListener("click",function(){
+        if(!S.chain.length){ play(i,k,"r"); render(); return; }
+        var ee=ends();
+        if(sd.l&&sd.r&&ee&&ee[0]!==ee[1]){ S.sel=(S.sel===k?null:k); render(); return; }
+        if(sd.l&&sd.r){ play(i,k,"r"); render(); return; }
+        play(i,k,sd.l?"l":"r"); render();
+      });
+      tl.appendChild(b);
+    });
+    sec.appendChild(tl);
+    if(act&&S.sel&&S.loc[S.sel]==="h"+i){
+      var pk=el("div","sidebar-pick");
+      pk.appendChild(el("span",null,"Colocar "+tile(S.sel)+" en:"));
+      var e=ends();
+      var bl=el("button","btn sm"); bl.type="button"; bl.textContent="◀ extremo "+e[0];
+      bl.addEventListener("click",function(){ play(i,S.sel,"l"); render(); });
+      var br=el("button","btn sm"); br.type="button"; br.textContent="extremo "+e[1]+" ▶";
+      br.addEventListener("click",function(){ play(i,S.sel,"r"); render(); });
+      pk.appendChild(bl); pk.appendChild(br);
+      sec.appendChild(pk);
+    }
+    wrap.appendChild(sec);
+  })(i); }
+  var pl=el("div","hand");
+  var phd=el("div","hand-hd");
+  phd.appendChild(el("span","who","La pila"));
+  phd.appendChild(el("span","meta",pila().length+" fichas · no se usan · "+sum(pila())+" pts fuera de juego"+(S.modo==="subita"?" (11 en muerte súbita)":"")));
+  pl.appendChild(phd);
+  var ptl=el("div","tiles");
+  if(!pila().length) ptl.appendChild(el("span","none","vacía"));
+  pila().forEach(function(k){ ptl.appendChild(tileNode(k,{cls:"sm"})); });
+  pl.appendChild(ptl);
+  wrap.appendChild(pl);
+}
+
+function motor(){
+  var c=caras(), e=ends(), v=passValue();
+  var salida = S.chain.length===1;
+  if(S.modo!=="subita") $("pv").textContent = e ? String(v) : "—";
+  if(S.modo==="subita"){ $("pv").textContent="—"; $("pv-lbl").textContent="muerte súbita: no se cobran pases ni capicúas"; }
+  else $("pv-lbl").textContent = !e ? "sin mesa" :
+     (v===0 ? "mesa sin caras vivas: no se cobra" :
+      salida ? ("SALIDA · cada rival que no va paga · "+c.n+" cara"+(c.n===1?"":"s")+" viva"+(c.n===1?"":"s")+" · tope 60")
+             : ("solo si NO van los dos · "+c.n+" cara"+(c.n===1?"":"s")+" viva"+(c.n===1?"":"s")));
+  var b=$("banner"); b.innerHTML="";
+  if(S.result){
+    var r=S.result, d;
+    if(r.tipo==="penal"){ d=el("div","banner bad"); d.appendChild(el("b",null,nm(r.who)+" pasó con ficha")); d.appendChild(document.createTextNode("Es el perdedor de la ronda. El marcador volvió a 0 – 0 – 0 y se reparte de nuevo.")); }
+    else if(r.cierre==="subita"){ d=el("div","banner bad"); d.appendChild(el("b",null,"Muerte súbita"));
+      d.appendChild(document.createTextNode(r.empatados.map(nm).join(" y ")+" quedan iguales abajo. Juegan una ronda sin puntos: se salva quien domine, o quien tenga menos si se tranca. "));
+      var go=el("button","btn sm p","Jugar la muerte súbita"); go.type="button"; go.style.marginTop="8px";
+      var champ=[0,1,2].filter(function(x){return r.empatados.indexOf(x)<0;})[0];
+      go.addEventListener("click",function(){ startSubita(r.empatados.slice(0,2),champ); render(); });
+      d.appendChild(document.createElement("br")); d.appendChild(go); }
+    else if(r.tipo==="subita"){ d=el("div","banner good"); d.appendChild(el("b",null,"Muerte súbita resuelta"));
+      d.appendChild(document.createTextNode(nm(r.salvado)+" se salva y queda segundo. "+nm(r.perdedor)+" queda tercero y pierde la ronda.")); }
+
+    else if(r.cierre==="normal"){ d=el("div","banner good"); d.appendChild(el("b",null,"Ronda cerrada")); d.appendChild(document.createTextNode(nm(r.perdedor)+" queda tercero y pierde. Los otros dos ganan.")); }
+    else { d=el("div","banner good"); d.appendChild(el("b",null,r.tipo==="tranca"?"Tranca":"Dominada")); d.appendChild(document.createTextNode(nm(r.who)+" gana la mano · +"+r.pts+(r.why?" ("+r.why+")":""))); }
+    if(d) b.appendChild(d);
+  }
+  var dl=$("readout"); dl.innerHTML="";
+  function ro(k,val){ var d=el("div","ro"); d.appendChild(el("dt",null,k)); d.appendChild(el("dd",null,val)); dl.appendChild(d); }
+  if(S.modo==="subita") ro("Modo","MUERTE SÚBITA · "+(S.duo?nm(S.duo[0])+" vs "+nm(S.duo[1]):"")+" · sin puntos");
+  ro("Extremos", e ? (e[0]+" / "+e[1]) : "—");
+  ro("Caras vivas", e ? (c.n+(c.nums.length?" ("+c.nums.join(", ")+")":"")) : "—");
+  if(e&&c.dead.length) ro("Caras muertas", c.dead.join(", "));
+  ro("Turno", live()?nm(S.turn):"—");
+  ro("Último en jugar", S.last!==null?nm(S.last):"—");
+  if(S.modo!=="subita"){
+    ro("Momento", e ? (S.chain.length===1?"salida — cada rival paga":"mano — hacen falta los dos") : (primeraMano()?"primera jugada oficial":"sale el ganador anterior"));
+    ro("Rivales que fallaron", S.fails+(S.chain.length===1?"":" / 2"));
+    ro("Cobrado en esta jugada", S.paid+" / 60");
+  }
+  ro("Pases seguidos", String(S.streak)+" / "+(S.modo==="subita"?2:3));
+  ro("Fichas en la mesa", String(S.chain.length));
+  ro("Sin asignar", String(free().length));
+  for(var n=0;n<7;n++){
+    var tot=ALL.filter(function(k){var f=faces(k);return f[0]===n||f[1]===n;});
+    var outc=tot.filter(onMesa).length;
+    if(outc>0) ro("Palo "+n, outc+" de "+tot.length+" jugadas"+(outc===tot.length?" · MUERTO":""));
+  }
+}
+function logv(){
+  var ul=$("log"); ul.innerHTML="";
+  $("log-n").textContent=S.log.length?(S.log.length+" eventos"):"";
+  if(!S.log.length){ var li=el("li"); li.appendChild(el("span","empty","Sin jugadas todavía.")); ul.appendChild(li); return; }
+  S.log.forEach(function(L,i){
+    var li=el("li");
+    li.appendChild(el("span","n",String(i+1)));
+    li.appendChild(el("span","tx",L.tx));
+    if(L.pt) li.appendChild(el("span","pt"+(L.neg?" neg":""),L.pt));
+    ul.appendChild(li);
+  });
+  ul.scrollTop=ul.scrollHeight;
+}
+function poolv(){
+  var br=$("brushes"); br.innerHTML="";
+  [["h0",0],["h1",1],["h2",2],["pila",null],["libre",null]].forEach(function(d){
+    var lbl = d[1]!==null ? S.names[d[1]] : (d[0]==="pila"?"Pila":"Sin asignar");
+    var b=el("button","brush",lbl); b.type="button"; b.setAttribute("aria-pressed",String(S.brush===d[0]));
+    b.addEventListener("click",function(){ S.brush=d[0]; poolv(); });
+    br.appendChild(b);
+  });
+  var p=$("pool"); p.innerHTML="";
+  ALL.forEach(function(k){
+    var w=el("div","pw");
+    var loc=S.loc[k], onM=loc==="mesa";
+    var b=tileNode(k,{btn:true,cls:"sm"});
+    b.disabled=onM;
+    b.addEventListener("click",function(){ snap(); S.loc[k]=S.brush; S.sel=null; render(); });
+    w.appendChild(b);
+    var lbl = onM?"mesa":(loc==="pila"?"pila":(loc==="libre"?"—":S.names[+loc[1]]));
+    w.appendChild(el("span","tag"+(onM?"":" on"),lbl));
+    p.appendChild(w);
+  });
+}
+function out(){
+  var e=ends(), c=caras(), L=[];
+  L.push("PINTINTÍN — estado de mesa");
+  L.push("Marcador: "+[0,1,2].map(function(i){return nm(i)+" "+S.scores[i];}).join(" · ")+"   (meta 150)");
+  L.push("Turno: "+(live()?nm(S.turn):"—")+"   Último en jugar: "+(S.last!==null?nm(S.last):"—")+"   Pases seguidos: "+S.streak);
+  L.push("");
+  L.push("Mesa ("+S.chain.length+"): "+(S.chain.length?S.chain.map(function(x){return "["+x.l+"|"+x.r+"]";}).join(""):"vacía"));
+  if(e){
+    L.push("Extremos: "+e[0]+" ("+(c.nums.indexOf(e[0])>=0?"viva":"MUERTA")+") — "+e[1]+" ("+(c.nums.indexOf(e[1])>=0?"viva":"MUERTA")+")");
+    L.push("Caras vivas: "+c.n+"  →  pase = "+passValue()+(S.chain.length===1?" por cada rival que no va (SALIDA, tope 60)":" solo si NO van los dos"));
+    L.push("Rivales que ya fallaron tras la última jugada: "+S.fails+"   Cobrado en esta jugada: "+S.paid+"/60");
+  }
+  L.push("");
+  L.push("Manos:");
+  for(var i=0;i<3;i++){ var h=hand(i);
+    L.push("  "+nm(i)+" ("+h.length+" fichas, "+sum(h)+" pts)"+(S.chain.length?(canPlay(i)?" [va]":" [no va]"):"")+": "+(h.length?h.map(tile).join(""):"—"));
+  }
+  L.push("  Pila ("+pila().length+", "+sum(pila())+" pts): "+(pila().length?pila().map(tile).join(""):"—"));
+  if(free().length) L.push("  Sin asignar ("+free().length+"): "+free().map(tile).join(""));
+  var deadP=[]; for(var n=0;n<7;n++){ var tot=ALL.filter(function(k){var f=faces(k);return f[0]===n||f[1]===n;}); if(tot.every(onMesa)) deadP.push(n); }
+  if(deadP.length) L.push("Palos agotados: "+deadP.join(", "));
+  if(S.log.length){ L.push(""); L.push("Bitácora:");
+    S.log.forEach(function(x,i){ L.push("  "+(i+1)+". "+x.tx+(x.pt?"   "+x.pt:"")); }); }
+  $("out").value=L.join("\n");
+}
+
+function startSubita(duo,campeon){
+  snap();
+  ALL.forEach(function(k){ S.loc[k]="pila"; });
+  var d=shuffle(ALL.slice());
+  for(var n=0;n<7;n++){ S.loc[d[n]]="h"+duo[0]; S.loc[d[n+7]]="h"+duo[1]; }
+  S.chain=[]; S.last=null; S.streak=0; S.fails=0; S.paid=0; S.sel=null; S.result=null; S.log=[];
+  S.modo="subita"; S.duo=duo.slice(); S.campeon=campeon; S.status="juego";
+  logit("MUERTE SÚBITA · "+nm(campeon)+" ya cerró la ronda. "+nm(duo[0])+" y "+nm(duo[1])+" juegan para decidir cuál de los dos queda tercero.");
+  logit("7 fichas cada uno · las otras 11 quedan fuera · no se cuentan puntos. No hay repetición: si la tranca queda empatada, gana el que trancó.");
+  var op=null,pick=null;
+  for(var v=6;v>=2&&op===null;v--){ var kk=K(v,v), L=S.loc[kk];
+    if(L&&L.charAt(0)==="h"){ op=+L.charAt(1); pick=kk; } }
+  if(op===null){
+    var cand=ALL.filter(function(k){ var L2=S.loc[k]; return L2&&L2.charAt(0)==="h"; }).sort(function(x,y){
+      var fx=faces(x),fy=faces(y), mx=Math.max(fx[0],fx[1]), my=Math.max(fy[0],fy[1]);
+      if(mx!==my) return my-mx; return Math.min(fy[0],fy[1])-Math.min(fx[0],fx[1]); });
+    pick=cand[0]; op=+S.loc[pick].charAt(1);
+    logit("Ningún doble repartido → sale la ficha más alta: "+tile(pick)+", en mano de "+nm(op)+".");
+  } else {
+    logit("Sale el doble más alto repartido: "+tile(pick)+", en mano de "+nm(op)+".");
+  }
+  S.turn=op; S.opener=op;
+  play(op,pick,"r");
+}
+/* ---- actions ---- */
+function shuffle(a){ for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i];a[i]=a[j];a[j]=t; } return a; }
+function deal(opener){
+  snap();
+  var d=shuffle(ALL.slice());
+  d.forEach(function(k,i){ S.loc[k]= i<7?"h0": i<14?"h1": i<21?"h2":"pila"; });
+  S.chain=[]; S.last=null; S.streak=0; S.fails=0; S.paid=0; S.sel=null; S.result=null; S.log=[]; S.status="juego"; S.modo="ronda"; S.duo=null; S.campeon=null;
+  logit("Reparto 7·7·7 · 4 en la pila.");
+  if(primeraMano()){ autoSalida(); return; }   // la salida la decide el doble más alto, automática
+  var op = (opener!=null) ? opener : (S.lastWinner!=null ? S.lastWinner : S.turn);
+  S.turn=op; S.opener=op;
+  logit("Sale "+nm(op)+(S.lastWinner===op?" · ganó la mano anterior":"")+": juega de primero y elige la ficha que quiera. El doble más alto solo obliga en la primera jugada oficial.");
+}
+$("deal").addEventListener("click",function(){ deal(null); render(); });
+$("newhand").addEventListener("click",function(){
+  var lg=S.log.slice();
+  deal(null);
+  S.log=lg.concat(S.log); render();
+});
+$("clear").addEventListener("click",function(){ snap(); var nmz=S.names.slice(); S=fresh(); S.names=nmz; render(); });
+$("undo").addEventListener("click",function(){ undo(); });
+$("copy").addEventListener("click",function(){
+  var btn=this, txt=$("out").value;
+  function done(ok){ btn.textContent=ok?"Copiado":"Selecciona y copia"; setTimeout(function(){btn.textContent="Copiar";},1800); }
+  try{ navigator.clipboard.writeText(txt).then(function(){done(true);},function(){ $("out").focus(); $("out").select(); done(false); }); }
+  catch(err){ $("out").focus(); $("out").select(); done(false); }
+});
+$("theme").addEventListener("click",function(){
+  var r=document.documentElement, cur=r.getAttribute("data-theme");
+  var sysDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  var isDark = cur==="dark" || (!cur && sysDark);
+  r.setAttribute("data-theme", isDark?"light":"dark");
+});
+
+/* ---- presets ---- */
+var PRESETS=[
+ {name:"Salida 6/6 · nadie va", d:function(){
+    var h=[["6-6","0-6","1-6","2-6","3-6","4-6","5-6"],
+           ["0-2","0-3","0-4","0-5","1-2","1-3","1-4"],
+           ["1-5","2-2","2-3","2-4","2-5","3-3","3-4"]],
+        p=["3-5","4-4","4-5","5-5"];
+    set(h,p,[],0,null,[0,0,0]);
+    logit("Escenario: J1 tiene los 7 seises. Primera mano, así que la salida es automática — 1 cara — y ninguno de los dos podrá ir: 30 + 30.");
+    autoSalida();
+ }},
+ {name:"Cara muerta · blanco agotado", d:function(){
+    var chain=[[0,2],[2,3],[3,0],[0,4],[4,5],[5,0],[0,6]];
+    var h=[["6-6","1-6","2-6","3-6","4-6"],
+           ["1-2","1-3","1-4","1-5","2-2"],
+           ["2-4","2-5","3-3","3-4"]],
+        p=["5-6","3-5","4-4","5-5"];
+    set(h,p,chain,0,0,[40,35,55]);
+    logit("Escenario: los 5 blancos están en la mesa, así que el extremo 0 está MUERTO. Queda 1 cara viva (el 6). Como ya no es la salida, J1 solo cobra si NO van los dos: 30 una vez, no 30 por cabeza.");
+ }},
+ {name:"Frontera de 120", d:function(){
+    var h=[["6-6","0-6","1-6","2-6","3-6","4-6","5-6"],
+           ["0-2","0-3","0-4","0-5","1-2","1-3","1-4"],
+           ["1-5","2-2","2-3","2-4","2-5","3-3","3-4"]],
+        p=["3-5","4-4","4-5","5-5"];
+    set(h,p,[],0,null,[119,96,72]);
+    logit("Escenario: J1 va en 119. Sale de 6/6 y cobra dos pases de 30 — pero el techo es 149: el primero entra completo y el segundo no entra.");
+ }},
+ {name:"Muerte súbita", d:function(){
+    snap();
+    S.names=S.names; S.scores=[152,48,48];
+    startSubita([1,2],0);
+    S.log.unshift({tx:"Escenario: J1 cerró la ronda en 152. J2 y J3 quedaron iguales en 48, así que ninguno es tercero todavía.",pt:null,neg:false});
+ }},
+ {name:"Tranca con empate", d:function(){
+    var chain=[[2,0],[0,3],[3,2],[2,2],[2,4],[4,1],[1,2],[2,5],[5,6],[6,2]];
+    var h=[["0-4","1-3","0-5","1-5"],
+           ["0-6","3-3","1-6"],
+           ["3-4","3-5","4-4","3-6"]],
+        p=["4-5","4-6","5-5","6-6"];
+    set(h,p,chain,0,2,[88,102,61]);
+    logit("Escenario: los 7 doses están en la mesa y los dos extremos son 2 → nadie puede jugar. J1 y J2 empatan en 19; J3 trancó. Pasa los tres turnos y mira el desempate.");
+ }}
+];
+function set(hands,pil,chain,turn,last,scores){
+  snap();
+  ALL.forEach(function(k){S.loc[k]="libre";});
+  S.chain=[];
+  chain.forEach(function(pr){ var k=K(pr[0],pr[1]); S.loc[k]="mesa"; S.chain.push({k:k,l:pr[0],r:pr[1]}); });
+  hands.forEach(function(h,i){ h.forEach(function(k){ S.loc[k]="h"+i; }); });
+  pil.forEach(function(k){ S.loc[k]="pila"; });
+  S.scores=scores.slice(); S.turn=turn; S.last=last; S.streak=0; S.fails=0; S.paid=0; S.sel=null; S.result=null; S.modo="ronda"; S.duo=null; S.campeon=null;
+  S.log=[]; S.status="juego";
+}
+var pb=$("presets");
+PRESETS.forEach(function(p){
+  var b=el("button","btn sm",p.name); b.type="button";
+  b.addEventListener("click",function(){ p.d(); render(); });
+  pb.appendChild(b);
+});
+
+/* boot */
+S=fresh();
+PRESETS[0].d();
+render();
+})();
+</script>
